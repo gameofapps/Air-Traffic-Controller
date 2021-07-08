@@ -84,6 +84,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jfD-fb-0qA" userLabel="pathsView">
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lco-fA-49O" userLabel="planeButton">
                                 <rect key="frame" x="64" y="595" width="80" height="81"/>
                                 <constraints>
@@ -105,14 +109,19 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="jrh-hD-es5" secondAttribute="bottom" id="CS2-gi-GTU"/>
                             <constraint firstAttribute="bottom" secondItem="Lco-fA-49O" secondAttribute="bottom" constant="250" id="IaM-fH-epu"/>
+                            <constraint firstItem="jfD-fb-0qA" firstAttribute="leading" secondItem="ulx-H7-cVo" secondAttribute="leading" id="NpH-wS-b9c"/>
+                            <constraint firstAttribute="bottom" secondItem="jfD-fb-0qA" secondAttribute="bottom" id="Va7-HU-FY1"/>
+                            <constraint firstItem="jfD-fb-0qA" firstAttribute="top" secondItem="ulx-H7-cVo" secondAttribute="top" id="gXR-Vv-oXH"/>
                             <constraint firstItem="Lco-fA-49O" firstAttribute="leading" secondItem="ulx-H7-cVo" secondAttribute="leading" constant="64" id="lrb-XW-oHw"/>
                             <constraint firstItem="jrh-hD-es5" firstAttribute="top" secondItem="ulx-H7-cVo" secondAttribute="top" id="mIh-hs-Ido"/>
                             <constraint firstAttribute="trailing" secondItem="jrh-hD-es5" secondAttribute="trailing" id="mfx-Uk-dv4"/>
                             <constraint firstItem="jrh-hD-es5" firstAttribute="leading" secondItem="ulx-H7-cVo" secondAttribute="leading" id="sgo-D5-rAV"/>
+                            <constraint firstAttribute="trailing" secondItem="jfD-fb-0qA" secondAttribute="trailing" id="z1W-7H-iTH"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Air Space" id="4Od-iL-vEd"/>
                     <connections>
+                        <outlet property="pathsView" destination="jfD-fb-0qA" id="6mn-P4-eK5"/>
                         <outlet property="planeButton" destination="jrh-hD-es5" id="W7o-91-Aoj"/>
                         <outlet property="tracePathView" destination="jrh-hD-es5" id="V7z-Cg-CMB"/>
                     </connections>

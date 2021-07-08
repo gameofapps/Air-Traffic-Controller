@@ -9,7 +9,7 @@ import UIKit
 
 protocol TracePathViewDelegate {
 
-    func tracePathCompleted(lineArray: [CGPoint])
+    func tracePathCompleted(bezierPath: UIBezierPath)
     func shouldTrace() -> Bool
 }
 
@@ -21,6 +21,7 @@ class TracePathView: UIView {
     // MARK: - Public methods
     func clear() {
         lineArray = [CGPoint]()
+        setNeedsDisplay()
     }
 
     // MARK: - Private properties
@@ -50,7 +51,15 @@ extension TracePathView {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard delegate?.shouldTrace() == true else { return }
         print("Touches ended")
-        delegate?.tracePathCompleted(lineArray: lineArray)
+        guard lineArray.count > 1 else { return }
+        
+        let bezierPath = UIBezierPath()
+        bezierPath.move(to: lineArray[0])
+        for i in 1 ..< lineArray.count {
+            bezierPath.addLine(to: lineArray[i])
+        }
+        
+        delegate?.tracePathCompleted(bezierPath: bezierPath)
         clear()
     }
 

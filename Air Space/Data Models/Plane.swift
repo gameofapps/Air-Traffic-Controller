@@ -16,7 +16,7 @@ struct Plane {
     // Public read-only properties
     private (set) public var percentageComplete: CGFloat = 0.0
 
-    var position: CGPoint {
+    var centrePosition: CGPoint {
         guard let path = path else { return CGPoint.zero }
         return path.mx_point(atFractionOfLength: percentageComplete)
     }
@@ -28,6 +28,16 @@ struct Plane {
         let length = path.mx_length
         let fraction = CGFloat(speed) / length
         percentageComplete += fraction
+    }
+    
+    func headingInRadians() -> CGFloat {
+        let percentageComplete = self.percentageComplete <= 0.0 ? 0.001 : self.percentageComplete
+        if let slope = path?.mx_slope(atFractionOfLength: percentageComplete) {
+            return atan(slope)
+        }
+        else {
+            return 0.0
+        }
     }
 }
 
