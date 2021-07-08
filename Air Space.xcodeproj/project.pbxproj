@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A0608762696BF7C007C0789 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0608752696BF7C007C0789 /* Plane.swift */; };
 		2A8C74CB26955AA500A2837F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C74CA26955AA500A2837F /* AppDelegate.swift */; };
 		2A8C74CD26955AA500A2837F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C74CC26955AA500A2837F /* SceneDelegate.swift */; };
 		2A8C74CF26955AA500A2837F /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C74CE26955AA500A2837F /* WelcomeViewController.swift */; };
@@ -18,6 +19,7 @@
 		2A8C74FC2695606B00A2837F /* TracePathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C74FB2695606B00A2837F /* TracePathView.swift */; };
 		2A8C74FE269570B400A2837F /* UIBezierPath+Superpowers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C74FD269570B400A2837F /* UIBezierPath+Superpowers.swift */; };
 		2A8C750026957A1E00A2837F /* GameBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */; };
+		2AC049B12696BAEF0005B6A2 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC049B02696BAEF0005B6A2 /* Beacon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2A0608752696BF7C007C0789 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		2A8C74C726955AA500A2837F /* Air Space.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Air Space.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A8C74CA26955AA500A2837F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2A8C74CC26955AA500A2837F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +59,7 @@
 		2A8C74FB2695606B00A2837F /* TracePathView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracePathView.swift; sourceTree = "<group>"; };
 		2A8C74FD269570B400A2837F /* UIBezierPath+Superpowers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Superpowers.swift"; sourceTree = "<group>"; };
 		2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardViewController.swift; sourceTree = "<group>"; };
+		2AC049B02696BAEF0005B6A2 /* Beacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A0608772696C29E007C0789 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				2A8C74FD269570B400A2837F /* UIBezierPath+Superpowers.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		2A8C74BE26955AA500A2837F = {
 			isa = PBXGroup;
 			children = (
@@ -109,13 +121,11 @@
 				2A8C74FA26955AD100A2837F /* Air Space.entitlements */,
 				2A8C74CA26955AA500A2837F /* AppDelegate.swift */,
 				2A8C74CC26955AA500A2837F /* SceneDelegate.swift */,
-				2A8C74CE26955AA500A2837F /* WelcomeViewController.swift */,
-				2A8C74D026955AA500A2837F /* Main.storyboard */,
-				2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */,
-				2A8C74FB2695606B00A2837F /* TracePathView.swift */,
-				2A8C74FD269570B400A2837F /* UIBezierPath+Superpowers.swift */,
-				2A8C74D326955AA700A2837F /* Assets.xcassets */,
 				2A8C74D526955AA700A2837F /* LaunchScreen.storyboard */,
+				2A8C74D326955AA700A2837F /* Assets.xcassets */,
+				2AC049B52696BB810005B6A2 /* Data Models */,
+				2AC049A92696BAD80005B6A2 /* UI */,
+				2A0608772696C29E007C0789 /* Utility */,
 				2A8C74D826955AA700A2837F /* Info.plist */,
 			);
 			path = "Air Space";
@@ -137,6 +147,26 @@
 				2A8C74EE26955AA700A2837F /* Info.plist */,
 			);
 			path = "Air SpaceUITests";
+			sourceTree = "<group>";
+		};
+		2AC049A92696BAD80005B6A2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				2A8C74D026955AA500A2837F /* Main.storyboard */,
+				2A8C74CE26955AA500A2837F /* WelcomeViewController.swift */,
+				2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */,
+				2A8C74FB2695606B00A2837F /* TracePathView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		2AC049B52696BB810005B6A2 /* Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				2AC049B02696BAEF0005B6A2 /* Beacon.swift */,
+				2A0608752696BF7C007C0789 /* Plane.swift */,
+			);
+			path = "Data Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,7 +303,9 @@
 				2A8C74FE269570B400A2837F /* UIBezierPath+Superpowers.swift in Sources */,
 				2A8C74FC2695606B00A2837F /* TracePathView.swift in Sources */,
 				2A8C750026957A1E00A2837F /* GameBoardViewController.swift in Sources */,
+				2AC049B12696BAEF0005B6A2 /* Beacon.swift in Sources */,
 				2A8C74CB26955AA500A2837F /* AppDelegate.swift in Sources */,
+				2A0608762696BF7C007C0789 /* Plane.swift in Sources */,
 				2A8C74CD26955AA500A2837F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

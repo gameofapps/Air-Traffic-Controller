@@ -84,42 +84,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jrh-hD-es5" userLabel="tracePathView" customClass="TracePathView" customModule="Air_Space" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lco-fA-49O" userLabel="planeButton">
+                                <rect key="frame" x="64" y="595" width="80" height="81"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Lco-fA-49O" secondAttribute="height" multiplier="223:226" id="NcS-Lu-7Iw"/>
+                                    <constraint firstAttribute="width" constant="80" id="efb-G0-BVe"/>
+                                </constraints>
+                                <state key="normal" image="airplane"/>
+                                <connections>
+                                    <action selector="planeButton:" destination="P66-KA-Aig" eventType="touchUpInside" id="c2i-Sa-bSc"/>
+                                </connections>
+                            </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jrh-hD-es5" userLabel="tracePathView" customClass="TracePathView" customModule="Air_Space" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="airplane" translatesAutoresizingMaskIntoConstraints="NO" id="G92-dw-fKW">
-                                <rect key="frame" x="174" y="422.33333333333331" width="80" height="81.333333333333314"/>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="O8p-ZJ-TB0"/>
-                                    <constraint firstAttribute="width" secondItem="G92-dw-fKW" secondAttribute="height" multiplier="223:226" id="e69-p5-pWU"/>
-                                </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="oU0-pr-wTq" appends="YES" id="fvB-i4-sc3"/>
-                                </connections>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ag5-NI-qt7"/>
                         <color key="backgroundColor" systemColor="systemGreenColor"/>
                         <constraints>
-                            <constraint firstItem="G92-dw-fKW" firstAttribute="centerX" secondItem="ulx-H7-cVo" secondAttribute="centerX" id="Aw3-d2-eoi"/>
-                            <constraint firstItem="G92-dw-fKW" firstAttribute="centerY" secondItem="ulx-H7-cVo" secondAttribute="centerY" id="rYk-vb-SpX"/>
+                            <constraint firstAttribute="bottom" secondItem="jrh-hD-es5" secondAttribute="bottom" id="CS2-gi-GTU"/>
+                            <constraint firstAttribute="bottom" secondItem="Lco-fA-49O" secondAttribute="bottom" constant="250" id="IaM-fH-epu"/>
+                            <constraint firstItem="Lco-fA-49O" firstAttribute="leading" secondItem="ulx-H7-cVo" secondAttribute="leading" constant="64" id="lrb-XW-oHw"/>
+                            <constraint firstItem="jrh-hD-es5" firstAttribute="top" secondItem="ulx-H7-cVo" secondAttribute="top" id="mIh-hs-Ido"/>
+                            <constraint firstAttribute="trailing" secondItem="jrh-hD-es5" secondAttribute="trailing" id="mfx-Uk-dv4"/>
+                            <constraint firstItem="jrh-hD-es5" firstAttribute="leading" secondItem="ulx-H7-cVo" secondAttribute="leading" id="sgo-D5-rAV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Air Space" id="4Od-iL-vEd"/>
                     <connections>
-                        <outlet property="longPressGestureRecognizer" destination="oU0-pr-wTq" id="pr0-x6-qdU"/>
+                        <outlet property="planeButton" destination="jrh-hD-es5" id="W7o-91-Aoj"/>
                         <outlet property="tracePathView" destination="jrh-hD-es5" id="V7z-Cg-CMB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="41J-wH-Wkc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="oU0-pr-wTq">
-                    <connections>
-                        <action selector="buttonLongPressed:" destination="P66-KA-Aig" id="9sg-6T-hPC"/>
-                    </connections>
-                </pongPressGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="oU0-pr-wTq"/>
             </objects>
             <point key="canvasLocation" x="1951.4018691588783" y="113.39092872570195"/>
         </scene>
