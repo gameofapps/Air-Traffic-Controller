@@ -8,74 +8,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Welcome View Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="Air_Space" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="eRc-cB-Deo">
-                                <rect key="frame" x="7" y="88" width="414" height="804"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUE-R1-bXt">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="201"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bij-PO-gjj">
-                                        <rect key="frame" x="170" y="201" width="74" height="201"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                        <state key="normal" title="Easy"/>
-                                        <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" type="system" pointSize="64"/>
-                                        </variation>
-                                        <connections>
-                                            <action selector="easyButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dmW-l8-MeL"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HEV-Df-pKm">
-                                        <rect key="frame" x="144" y="402" width="126" height="201"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                        <state key="normal" title="Medium"/>
-                                        <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" type="system" pointSize="64"/>
-                                        </variation>
-                                        <connections>
-                                            <action selector="mediumButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1eu-pn-VBC"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S3Z-1v-IEX">
-                                        <rect key="frame" x="147" y="603" width="120" height="201"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                        <state key="normal" title="Difficult"/>
-                                        <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" type="system" pointSize="64"/>
-                                        </variation>
-                                        <connections>
-                                            <action selector="difficultButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TDl-2n-F4p"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="eRc-cB-Deo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5xZ-Dc-vp6"/>
-                            <constraint firstItem="eRc-cB-Deo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="K0E-lm-LeH"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="eRc-cB-Deo" secondAttribute="bottom" id="vLM-kf-L2D"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="sfE-gl-HO8"/>
-                    <connections>
-                        <segue destination="P66-KA-Aig" kind="show" identifier="segueStartGame" id="Wlf-zt-LJm"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1031.8840579710145" y="113.83928571428571"/>
-        </scene>
         <!--Air Space-->
         <scene sceneID="KVu-mz-a60">
             <objects>
@@ -142,19 +74,16 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="x5I-Gm-Qrq"/>
+                        <segue destination="P66-KA-Aig" kind="relationship" relationship="rootViewController" id="rCQ-wh-5WW"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Myt-Lt-6sa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="121.73913043478262" y="113.83928571428571"/>
+            <point key="canvasLocation" x="1054" y="113"/>
         </scene>
     </scenes>
     <resources>
         <image name="airplane" width="223" height="226"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
