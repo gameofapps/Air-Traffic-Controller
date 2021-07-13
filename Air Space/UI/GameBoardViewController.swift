@@ -36,6 +36,7 @@ class GameBoardViewController: UIViewController {
         }
     }
     private var gameLoopTimer: Timer? = nil
+    private var gameLoopInterval = 1.0
 }
 
 // MARK: - UIViewController methods
@@ -104,12 +105,17 @@ extension GameBoardViewController {
     private func orientToPath(bezierPath: UIBezierPath, planeView: UIView) {
         viewModel.plane.path = bezierPath
         let rotation = viewModel.plane.headingInRadians()
-        planeView.transform = CGAffineTransform(rotationAngle: rotation)
+        UIView.animate(withDuration: gameLoopInterval, delay: 0, options: [.allowUserInteraction, .curveLinear]) {
+            planeView.transform = CGAffineTransform(rotationAngle: rotation)
+        }
         print("Rotating to \(rotation) radians")
     }
     
     private func movePlaneOnPath(bezierPath: UIBezierPath, planeView: UIView) {
-        planeView.center = viewModel.plane.centrePosition
+        let centrePosition = viewModel.plane.centrePosition
+        UIView.animate(withDuration: gameLoopInterval, delay: 0, options: [.allowUserInteraction, .curveLinear]) {
+            planeView.center = centrePosition
+        }
     }
 }
 
@@ -118,7 +124,7 @@ extension GameBoardViewController {
     
     private func startGameLoop() {
         stopGameLoop()
-        gameLoopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(gameLoopTimerFired), userInfo: nil, repeats: true)
+        gameLoopTimer = Timer.scheduledTimer(timeInterval: gameLoopInterval, target: self, selector: #selector(gameLoopTimerFired), userInfo: nil, repeats: true)
     }
     
     private func stopGameLoop() {
