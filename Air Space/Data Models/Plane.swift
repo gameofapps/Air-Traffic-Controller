@@ -31,13 +31,11 @@ struct Plane {
     }
     
     func headingInRadians() -> CGFloat {
-        let percentageComplete = self.percentageComplete <= 0.0 ? 0.001 : self.percentageComplete
-        if let slope = path?.mx_slope(atFractionOfLength: percentageComplete) {
-            return atan(slope)
-        }
-        else {
+        let percentageComplete = self.percentageComplete <= 0.0 ? 0.01 : self.percentageComplete
+        guard let tangent = path?.mx_tangentAngle(atFractionOfLength: percentageComplete) else {
             return 0.0
         }
+        return CGFloat(Double.pi / 2) - tangent
     }
 }
 

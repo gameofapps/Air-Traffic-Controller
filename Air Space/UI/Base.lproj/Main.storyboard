@@ -122,7 +122,7 @@
                     <navigationItem key="navigationItem" title="Air Space" id="4Od-iL-vEd"/>
                     <connections>
                         <outlet property="pathsView" destination="jfD-fb-0qA" id="6mn-P4-eK5"/>
-                        <outlet property="planeButton" destination="jrh-hD-es5" id="W7o-91-Aoj"/>
+                        <outlet property="planeButton" destination="Lco-fA-49O" id="ixY-ug-dWG"/>
                         <outlet property="tracePathView" destination="jrh-hD-es5" id="V7z-Cg-CMB"/>
                     </connections>
                 </viewController>

@@ -10,7 +10,7 @@ import UIKit
 class GameBoardViewController: UIViewController {
 
     // MARK: - IBOutlets
-    @IBOutlet weak var planeButton: TracePathView!
+    @IBOutlet weak var planeButton: UIButton!
     @IBOutlet weak var tracePathView: TracePathView!
     @IBOutlet weak var pathsView: UIView!
 
@@ -41,8 +41,8 @@ extension GameBoardViewController: TracePathViewDelegate {
     
     func tracePathCompleted(bezierPath: UIBezierPath) {
         stopTracingPath()
-        addReplacePath(bezierPath: bezierPath, planeView: planeButton)
-//        orientToPath(bezierPath: bezierPath, planeView: planeButton)
+        drawPlanePath(bezierPath: bezierPath, planeView: planeButton)
+        orientToPath(bezierPath: bezierPath, planeView: planeButton)
     }
 
     func shouldTrace() -> Bool {
@@ -68,7 +68,7 @@ extension GameBoardViewController {
         tracePathView.isHidden = true
     }
     
-    private func addReplacePath(bezierPath: UIBezierPath, planeView: UIView) {
+    private func drawPlanePath(bezierPath: UIBezierPath, planeView: UIView) {
         shapeLayer.removeFromSuperlayer()
         shapeLayer = CAShapeLayer()
         shapeLayer.path = bezierPath.cgPath
@@ -83,6 +83,7 @@ extension GameBoardViewController {
         plane.path = bezierPath
         let rotation = plane.headingInRadians()
         planeView.transform = CGAffineTransform(rotationAngle: rotation)
+//        planeView.transform = planeView.transform.rotated(by: rotation)
         print("Rotating to \(rotation) radians")
 //        planeView.superview?.layoutIfNeeded()
     }
