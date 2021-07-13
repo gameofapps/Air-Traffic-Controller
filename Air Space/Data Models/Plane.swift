@@ -22,6 +22,10 @@ struct Plane {
     }
 
     // Public methods
+    mutating func resetPath() {
+        percentageComplete = 0.0
+    }
+
     mutating func move() {
         guard let path = path else { return }
         let speed = velocity.rawValue

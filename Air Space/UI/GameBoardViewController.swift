@@ -20,9 +20,22 @@ class GameBoardViewController: UIViewController {
         startTracingPath()
     }
     
+    // MARK: - Data model
+    private var viewModel = GameBoardViewModel()
+
     // MARK: - Private properties
     private var isTracingPath = false
-    private var shapeLayer = CAShapeLayer()
+    private var isGameLoopRunning = false {
+        didSet {
+            if isGameLoopRunning {
+                startGameLoop()
+            }
+            else {
+                stopGameLoop()
+            }
+        }
+    }
+    private var gameLoopTimer: Timer? = nil
 }
 
 // MARK: - UIViewController methods
@@ -41,6 +54,7 @@ extension GameBoardViewController: TracePathViewDelegate {
     
     func tracePathCompleted(bezierPath: UIBezierPath) {
         stopTracingPath()
+        resetPlanePath(bezierPath: bezierPath, planeView: planeButton)
         drawPlanePath(bezierPath: bezierPath, planeView: planeButton)
         orientToPath(bezierPath: bezierPath, planeView: planeButton)
     }
@@ -50,7 +64,7 @@ extension GameBoardViewController: TracePathViewDelegate {
     }
 }
 
-// MARK: - Private methods
+// MARK: - Tracing and path methods
 extension GameBoardViewController {
     
     private func startTracingPath() {
@@ -59,6 +73,7 @@ extension GameBoardViewController {
         isTracingPath = true
         tracePathView.clear()
         tracePathView.isHidden = false
+        isGameLoopRunning = false
     }
     
     private func stopTracingPath() {
@@ -66,25 +81,56 @@ extension GameBoardViewController {
         print("Stop tracing")
         isTracingPath = false
         tracePathView.isHidden = true
+        isGameLoopRunning = true
+    }
+
+    private func resetPlanePath(bezierPath: UIBezierPath, planeView: UIView) {
+        viewModel.plane.resetPath()
     }
     
     private func drawPlanePath(bezierPath: UIBezierPath, planeView: UIView) {
-        shapeLayer.removeFromSuperlayer()
-        shapeLayer = CAShapeLayer()
-        shapeLayer.path = bezierPath.cgPath
-        shapeLayer.strokeColor = UIColor.darkGray.cgColor
-        shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.lineWidth = 5.0
-        pathsView.layer.addSublayer(shapeLayer)
+        viewModel.planeView = planeView
+        viewModel.pathShape.removeFromSuperlayer()
+        viewModel.pathShape = CAShapeLayer()
+        viewModel.pathShape.path = bezierPath.cgPath
+        viewModel.pathShape.strokeColor = UIColor.darkGray.cgColor
+        viewModel.pathShape.fillColor = UIColor.clear.cgColor
+        viewModel.pathShape.lineWidth = 5.0
+        viewModel.pathShape.strokeStart = viewModel.plane.percentageComplete
+        viewModel.pathShape.strokeEnd = 1.0
+        pathsView.layer.addSublayer(viewModel.pathShape)
     }
     
     private func orientToPath(bezierPath: UIBezierPath, planeView: UIView) {
-        var plane = Plane()
-        plane.path = bezierPath
-        let rotation = plane.headingInRadians()
+        viewModel.plane.path = bezierPath
+        let rotation = viewModel.plane.headingInRadians()
         planeView.transform = CGAffineTransform(rotationAngle: rotation)
-//        planeView.transform = planeView.transform.rotated(by: rotation)
         print("Rotating to \(rotation) radians")
-//        planeView.superview?.layoutIfNeeded()
+    }
+    
+    private func movePlaneOnPath(bezierPath: UIBezierPath, planeView: UIView) {
+        planeView.center = viewModel.plane.centrePosition
+    }
+}
+
+// MARK: - Game loop methods
+extension GameBoardViewController {
+    
+    private func startGameLoop() {
+        stopGameLoop()
+        gameLoopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(gameLoopTimerFired), userInfo: nil, repeats: true)
+    }
+    
+    private func stopGameLoop() {
+        gameLoopTimer?.invalidate()
+    }
+    
+    @objc func gameLoopTimerFired() {
+        print("Timer fired!")
+        viewModel.plane.move()
+        guard let path = viewModel.plane.path else { return }
+        drawPlanePath(bezierPath: path, planeView: planeButton)
+        orientToPath(bezierPath: path, planeView: planeButton)
+        movePlaneOnPath(bezierPath: path, planeView: planeButton)
     }
 }
