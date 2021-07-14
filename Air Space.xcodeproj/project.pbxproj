@@ -20,7 +20,7 @@
 		2A8C74FE269570B400A2837F /* UIBezierPath+Superpowers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C74FD269570B400A2837F /* UIBezierPath+Superpowers.swift */; };
 		2A8C750026957A1E00A2837F /* GameBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */; };
 		2AC049B12696BAEF0005B6A2 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC049B02696BAEF0005B6A2 /* Beacon.swift */; };
-		3042A81E269E01A80074F5BD /* GameBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3042A81D269E01A80074F5BD /* GameBoardViewModel.swift */; };
+		3042A81E269E01A80074F5BD /* PlaneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3042A81D269E01A80074F5BD /* PlaneViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +61,7 @@
 		2A8C74FD269570B400A2837F /* UIBezierPath+Superpowers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Superpowers.swift"; sourceTree = "<group>"; };
 		2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardViewController.swift; sourceTree = "<group>"; };
 		2AC049B02696BAEF0005B6A2 /* Beacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
-		3042A81D269E01A80074F5BD /* GameBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardViewModel.swift; sourceTree = "<group>"; };
+		3042A81D269E01A80074F5BD /* PlaneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,7 +157,7 @@
 				2A8C74D026955AA500A2837F /* Main.storyboard */,
 				2A8C74CE26955AA500A2837F /* WelcomeViewController.swift */,
 				2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */,
-				3042A81D269E01A80074F5BD /* GameBoardViewModel.swift */,
+				3042A81D269E01A80074F5BD /* PlaneViewModel.swift */,
 				2A8C74FB2695606B00A2837F /* TracePathView.swift */,
 			);
 			path = UI;
@@ -306,7 +306,7 @@
 				2A8C74FE269570B400A2837F /* UIBezierPath+Superpowers.swift in Sources */,
 				2A8C74FC2695606B00A2837F /* TracePathView.swift in Sources */,
 				2A8C750026957A1E00A2837F /* GameBoardViewController.swift in Sources */,
-				3042A81E269E01A80074F5BD /* GameBoardViewModel.swift in Sources */,
+				3042A81E269E01A80074F5BD /* PlaneViewModel.swift in Sources */,
 				2AC049B12696BAEF0005B6A2 /* Beacon.swift in Sources */,
 				2A8C74CB26955AA500A2837F /* AppDelegate.swift in Sources */,
 				2A0608762696BF7C007C0789 /* Plane.swift in Sources */,
@@ -416,6 +416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -471,6 +472,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -490,11 +492,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9N5PH89AB;
 				INFOPLIST_FILE = "Air Space/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.gameofapps.airspace;
+				PRODUCT_BUNDLE_IDENTIFIER = org.gameofapps.letsbuildanapp.airspace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
@@ -511,11 +514,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9N5PH89AB;
 				INFOPLIST_FILE = "Air Space/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.gameofapps.airspace;
+				PRODUCT_BUNDLE_IDENTIFIER = org.gameofapps.letsbuildanapp.airspace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;

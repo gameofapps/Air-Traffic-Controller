@@ -11,17 +11,35 @@ struct Plane {
 
     // Public properties
     var velocity: PlaneSpeed = .speed1
-    var path: UIBezierPath? = nil
+    var path: UIBezierPath? = nil {
+        didSet {
+            if path != nil {
+                initialPosition = nil
+            }
+        }
+    }
 
     // Public read-only properties
     private (set) public var percentageComplete: CGFloat = 0.0
 
     var centrePosition: CGPoint {
-        guard let path = path else { return CGPoint.zero }
-        return path.mx_point(atFractionOfLength: percentageComplete)
+        if let path = path {
+            let centrePosition = path.mx_point(atFractionOfLength: percentageComplete)
+            return centrePosition
+        }
+        else if let initialPosition = initialPosition {
+            return initialPosition
+        }
+        else {
+            return CGPoint.zero
+        }
     }
 
     // Public methods
+    init(initialPosition: CGPoint) {
+        self.initialPosition = initialPosition
+    }
+
     mutating func resetPath() {
         percentageComplete = 0.0
     }
@@ -41,6 +59,9 @@ struct Plane {
         }
         return CGFloat(Double.pi / 2) - tangent
     }
+    
+    // Private properties
+    private var initialPosition: CGPoint? = nil
 }
 
 enum PlaneSpeed: Int {

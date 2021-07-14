@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Xes-qA-2Uz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19115.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Xes-qA-2Uz">
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.5"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -88,17 +89,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lco-fA-49O" userLabel="planeButton">
-                                <rect key="frame" x="64" y="595" width="80" height="81"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Lco-fA-49O" secondAttribute="height" multiplier="223:226" id="NcS-Lu-7Iw"/>
-                                    <constraint firstAttribute="width" constant="80" id="efb-G0-BVe"/>
-                                </constraints>
-                                <state key="normal" image="airplane"/>
-                                <connections>
-                                    <action selector="planeButton:" destination="P66-KA-Aig" eventType="touchUpInside" id="c2i-Sa-bSc"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fMp-fX-Umr" userLabel="planesView">
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jrh-hD-es5" userLabel="tracePathView" customClass="TracePathView" customModule="Air_Space" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -107,22 +101,30 @@
                         <viewLayoutGuide key="safeArea" id="ag5-NI-qt7"/>
                         <color key="backgroundColor" systemColor="systemGreenColor"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="fMp-fX-Umr" secondAttribute="trailing" id="6os-yq-Hec"/>
                             <constraint firstAttribute="bottom" secondItem="jrh-hD-es5" secondAttribute="bottom" id="CS2-gi-GTU"/>
-                            <constraint firstAttribute="bottom" secondItem="Lco-fA-49O" secondAttribute="bottom" constant="250" id="IaM-fH-epu"/>
                             <constraint firstItem="jfD-fb-0qA" firstAttribute="leading" secondItem="ulx-H7-cVo" secondAttribute="leading" id="NpH-wS-b9c"/>
                             <constraint firstAttribute="bottom" secondItem="jfD-fb-0qA" secondAttribute="bottom" id="Va7-HU-FY1"/>
                             <constraint firstItem="jfD-fb-0qA" firstAttribute="top" secondItem="ulx-H7-cVo" secondAttribute="top" id="gXR-Vv-oXH"/>
-                            <constraint firstItem="Lco-fA-49O" firstAttribute="leading" secondItem="ulx-H7-cVo" secondAttribute="leading" constant="64" id="lrb-XW-oHw"/>
+                            <constraint firstItem="fMp-fX-Umr" firstAttribute="leading" secondItem="ulx-H7-cVo" secondAttribute="leading" id="j9c-BJ-Wld"/>
+                            <constraint firstItem="fMp-fX-Umr" firstAttribute="top" secondItem="ulx-H7-cVo" secondAttribute="top" id="kxA-Qh-1AO"/>
                             <constraint firstItem="jrh-hD-es5" firstAttribute="top" secondItem="ulx-H7-cVo" secondAttribute="top" id="mIh-hs-Ido"/>
                             <constraint firstAttribute="trailing" secondItem="jrh-hD-es5" secondAttribute="trailing" id="mfx-Uk-dv4"/>
                             <constraint firstItem="jrh-hD-es5" firstAttribute="leading" secondItem="ulx-H7-cVo" secondAttribute="leading" id="sgo-D5-rAV"/>
+                            <constraint firstAttribute="bottom" secondItem="fMp-fX-Umr" secondAttribute="bottom" id="yZ0-Tv-3AD"/>
                             <constraint firstAttribute="trailing" secondItem="jfD-fb-0qA" secondAttribute="trailing" id="z1W-7H-iTH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Air Space" id="4Od-iL-vEd"/>
+                    <navigationItem key="navigationItem" title="Air Space" id="4Od-iL-vEd">
+                        <barButtonItem key="rightBarButtonItem" title="Spawn" id="wDQ-Du-JX3">
+                            <connections>
+                                <action selector="spawnButtonTapped:" destination="P66-KA-Aig" id="q2R-KM-hyK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="pathsView" destination="jfD-fb-0qA" id="6mn-P4-eK5"/>
-                        <outlet property="planeButton" destination="Lco-fA-49O" id="ixY-ug-dWG"/>
+                        <outlet property="planesView" destination="fMp-fX-Umr" id="sIx-xk-Yng"/>
                         <outlet property="tracePathView" destination="jrh-hD-es5" id="V7z-Cg-CMB"/>
                     </connections>
                 </viewController>
@@ -151,7 +153,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="airplane" width="223" height="226"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

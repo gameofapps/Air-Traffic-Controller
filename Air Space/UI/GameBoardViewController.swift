@@ -10,18 +10,35 @@ import UIKit
 class GameBoardViewController: UIViewController {
 
     // MARK: - IBOutlets
-    @IBOutlet weak var planeButton: UIButton!
     @IBOutlet weak var tracePathView: TracePathView!
+    @IBOutlet weak var planesView: UIView!
     @IBOutlet weak var pathsView: UIView!
 
     // MARK: - IBActions
     @IBAction func planeButton(_ sender: UIButton) {
         print("Button tapped")
-        startTracingPath()
+        startTracingPath(planeView: sender)
     }
-    
+
+    @IBAction func spawnButtonTapped(_ sender: UIBarButtonItem) {
+        let planeButton = UIButton()
+        let planeImage = UIImage(named: "airplane")
+        planeButton.setImage(planeImage, for: .normal)
+
+        var planeViewModel = PlaneViewModel()
+        planeViewModel.planeView = planeButton
+        let plane = Plane(initialPosition: getRandomPlaneStartPosition())
+        planeViewModel.plane = plane
+
+        planesView.addSubview(planeButton)
+        planeButton.center = plane.centrePosition
+        planeButton.frame.size = CGSize(width: PlaneViewModel.width, height: PlaneViewModel.height)
+        
+        viewModel.append(planeViewModel)
+    }
+
     // MARK: - Data model
-    private var viewModel = GameBoardViewModel()
+    private var viewModel = [PlaneViewModel]()
 
     // MARK: - Private properties
     private var isTracingPath = false
@@ -53,11 +70,11 @@ extension GameBoardViewController {
 // MARK: - TracePathViewDelegate methods
 extension GameBoardViewController: TracePathViewDelegate {
     
-    func tracePathCompleted(bezierPath: UIBezierPath) {
+    func tracePathCompleted(bezierPath: UIBezierPath, planeView: UIView) {
         stopTracingPath()
-        resetPlanePath(bezierPath: bezierPath, planeView: planeButton)
-        drawPlanePath(bezierPath: bezierPath, planeView: planeButton)
-        orientToPath(bezierPath: bezierPath, planeView: planeButton)
+        resetPlanePath(bezierPath: bezierPath, planeView: planeView)
+        drawPlanePath(bezierPath: bezierPath, planeView: planeView)
+        orientToPath(bezierPath: bezierPath, planeView: planeView)
     }
 
     func shouldTrace() -> Bool {
@@ -68,11 +85,11 @@ extension GameBoardViewController: TracePathViewDelegate {
 // MARK: - Tracing and path methods
 extension GameBoardViewController {
     
-    private func startTracingPath() {
+    private func startTracingPath(planeView: UIView) {
         guard !isTracingPath else { return }
         print("Start tracing")
         isTracingPath = true
-        tracePathView.clear()
+        tracePathView.start(planeView: planeView)
         tracePathView.isHidden = false
         isGameLoopRunning = false
     }
@@ -86,35 +103,55 @@ extension GameBoardViewController {
     }
 
     private func resetPlanePath(bezierPath: UIBezierPath, planeView: UIView) {
-        viewModel.plane.resetPath()
+        for (index, planeViewModel) in viewModel.enumerated() {
+            if planeViewModel.planeView == planeView {
+                viewModel[index].plane.resetPath()
+                break
+            }
+        }
     }
     
     private func drawPlanePath(bezierPath: UIBezierPath, planeView: UIView) {
-        viewModel.planeView = planeView
-        viewModel.pathShape.removeFromSuperlayer()
-        viewModel.pathShape = CAShapeLayer()
-        viewModel.pathShape.path = bezierPath.cgPath
-        viewModel.pathShape.strokeColor = UIColor.darkGray.cgColor
-        viewModel.pathShape.fillColor = UIColor.clear.cgColor
-        viewModel.pathShape.lineWidth = 5.0
-        viewModel.pathShape.strokeStart = viewModel.plane.percentageComplete
-        viewModel.pathShape.strokeEnd = 1.0
-        pathsView.layer.addSublayer(viewModel.pathShape)
+        for (index, planeViewModel) in viewModel.enumerated() {
+            if planeViewModel.planeView == planeView {
+                viewModel[index].planeView = planeView
+                viewModel[index].pathShape.removeFromSuperlayer()
+                viewModel[index].pathShape = CAShapeLayer()
+                viewModel[index].pathShape.path = bezierPath.cgPath
+                viewModel[index].pathShape.strokeColor = UIColor.darkGray.cgColor
+                viewModel[index].pathShape.fillColor = UIColor.clear.cgColor
+                viewModel[index].pathShape.lineWidth = 5.0
+                viewModel[index].pathShape.strokeStart = viewModel[index].plane.percentageComplete
+                viewModel[index].pathShape.strokeEnd = 1.0
+                pathsView.layer.addSublayer(viewModel[index].pathShape)
+                break
+            }
+        }
     }
     
     private func orientToPath(bezierPath: UIBezierPath, planeView: UIView) {
-        viewModel.plane.path = bezierPath
-        let rotation = viewModel.plane.headingInRadians()
-        UIView.animate(withDuration: gameLoopInterval, delay: 0, options: [.allowUserInteraction, .curveLinear]) {
-            planeView.transform = CGAffineTransform(rotationAngle: rotation)
+        for (index, planeViewModel) in viewModel.enumerated() {
+            if planeViewModel.planeView == planeView {
+                viewModel[index].plane.path = bezierPath
+                let rotation = viewModel[index].plane.headingInRadians()
+                UIView.animate(withDuration: gameLoopInterval, delay: 0, options: [.allowUserInteraction, .curveLinear]) {
+                    planeView.transform = CGAffineTransform(rotationAngle: rotation)
+                }
+                print("Rotating to \(rotation) radians")
+                break
+            }
         }
-        print("Rotating to \(rotation) radians")
     }
     
     private func movePlaneOnPath(bezierPath: UIBezierPath, planeView: UIView) {
-        let centrePosition = viewModel.plane.centrePosition
-        UIView.animate(withDuration: gameLoopInterval, delay: 0, options: [.allowUserInteraction, .curveLinear]) {
-            planeView.center = centrePosition
+        for (index, planeViewModel) in viewModel.enumerated() {
+            if planeViewModel.planeView == planeView {
+                let centrePosition = viewModel[index].plane.centrePosition
+                UIView.animate(withDuration: gameLoopInterval, delay: 0, options: [.allowUserInteraction, .curveLinear]) {
+                    planeView.center = centrePosition
+                }
+                break
+            }
         }
     }
 }
@@ -132,11 +169,35 @@ extension GameBoardViewController {
     }
     
     @objc func gameLoopTimerFired() {
-        print("Timer fired!")
-        viewModel.plane.move()
-        guard let path = viewModel.plane.path else { return }
-        drawPlanePath(bezierPath: path, planeView: planeButton)
-        orientToPath(bezierPath: path, planeView: planeButton)
-        movePlaneOnPath(bezierPath: path, planeView: planeButton)
+//        print("Timer fired!")
+        for (index, planeViewModel) in viewModel.enumerated() {
+            viewModel[index].plane.move()
+            guard let path = viewModel[index].plane.path, let planeView = planeViewModel.planeView else { return }
+            drawPlanePath(bezierPath: path, planeView: planeView)
+            orientToPath(bezierPath: path, planeView: planeView)
+            movePlaneOnPath(bezierPath: path, planeView: planeView)
+        }
+    }
+}
+
+// MARK: - Private methods
+extension GameBoardViewController {
+    
+    private func getRandomPlaneStartPosition() -> CGPoint {
+        let topSafeArea = view.frame.origin.y + view.safeAreaInsets.top
+        let bottomSafeArea = view.frame.origin.y + view.frame.size.height - view.safeAreaInsets.bottom
+        let leftSafeArea = view.frame.origin.x + view.safeAreaInsets.left
+        let rightSafeArea = view.frame.origin.x + view.frame.size.width - view.safeAreaInsets.right
+        let minimumX = leftSafeArea + PlaneViewModel.width / 2.0
+        let maximumX = rightSafeArea - PlaneViewModel.width / 2.0
+        print("minimumX: \(minimumX), maximumX: \(maximumX)")
+        let xCoord = CGFloat.random(in: minimumX ... maximumX)
+        let minimumY = topSafeArea + PlaneViewModel.height / 2.0
+        let maximumY = bottomSafeArea - PlaneViewModel.height / 2.0
+        print("minimumY: \(minimumY), maximumY: \(maximumY)")
+        let yCoord = CGFloat.random(in: minimumY ... maximumY)
+        let position = CGPoint(x: xCoord, y: yCoord)
+        print("xCoord: \(xCoord), yCoord: \(yCoord)")
+        return position
     }
 }

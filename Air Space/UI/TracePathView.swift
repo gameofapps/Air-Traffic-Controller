@@ -9,7 +9,7 @@ import UIKit
 
 protocol TracePathViewDelegate {
 
-    func tracePathCompleted(bezierPath: UIBezierPath)
+    func tracePathCompleted(bezierPath: UIBezierPath, planeView: UIView)
     func shouldTrace() -> Bool
 }
 
@@ -19,13 +19,15 @@ class TracePathView: UIView {
     var delegate: TracePathViewDelegate? = nil
 
     // MARK: - Public methods
-    func clear() {
+    func start(planeView: UIView) {
         lineArray = [CGPoint]()
+        self.planeView = planeView
         setNeedsDisplay()
     }
 
     // MARK: - Private properties
     private var lineArray: [CGPoint] = [CGPoint]()
+    private var planeView: UIView? = nil
 }
 
 // MARK: - UIView methods
@@ -33,10 +35,11 @@ extension TracePathView {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard delegate?.shouldTrace() == true else { return }
+        guard let planeView = planeView else { return }
         guard let touch = touches.first else { return }
         let firstPoint = touch.location(in: self)
 
-        clear()
+        start(planeView: planeView)
         addPoint(point: firstPoint)
     }
 
@@ -50,6 +53,7 @@ extension TracePathView {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard delegate?.shouldTrace() == true else { return }
+        guard let planeView = planeView else { return }
         print("Touches ended")
         guard lineArray.count > 1 else { return }
         
@@ -59,8 +63,8 @@ extension TracePathView {
             bezierPath.addLine(to: lineArray[i])
         }
         
-        delegate?.tracePathCompleted(bezierPath: bezierPath)
-        clear()
+        delegate?.tracePathCompleted(bezierPath: bezierPath, planeView: planeView)
+        start(planeView: planeView)
     }
 
     override func draw(_ rect: CGRect) {
