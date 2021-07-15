@@ -490,6 +490,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Air Space/Air Space.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0.4;
 				DEVELOPMENT_TEAM = Q9N5PH89AB;
 				INFOPLIST_FILE = "Air Space/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "";
@@ -512,6 +513,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Air Space/Air Space.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0.4;
 				DEVELOPMENT_TEAM = Q9N5PH89AB;
 				INFOPLIST_FILE = "Air Space/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "";
