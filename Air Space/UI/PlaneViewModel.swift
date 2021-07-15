@@ -11,7 +11,7 @@ struct PlaneViewModel {
 
     var plane = Plane(initialPosition: CGPoint.zero)
     var pathShape = CAShapeLayer()
-    var planeView: UIView?
+    var planeView: UIButton?
     
     static let width: CGFloat = 80.0
     static let height: CGFloat = 81.0

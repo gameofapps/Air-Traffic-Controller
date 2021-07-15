@@ -15,26 +15,8 @@ class GameBoardViewController: UIViewController {
     @IBOutlet weak var pathsView: UIView!
 
     // MARK: - IBActions
-    @IBAction func planeButton(_ sender: UIButton) {
-        print("Button tapped")
-        startTracingPath(planeView: sender)
-    }
-
     @IBAction func spawnButtonTapped(_ sender: UIBarButtonItem) {
-        let planeButton = UIButton()
-        let planeImage = UIImage(named: "airplane")
-        planeButton.setImage(planeImage, for: .normal)
-
-        var planeViewModel = PlaneViewModel()
-        planeViewModel.planeView = planeButton
-        let plane = Plane(initialPosition: getRandomPlaneStartPosition())
-        planeViewModel.plane = plane
-
-        planesView.addSubview(planeButton)
-        planeButton.center = plane.centrePosition
-        planeButton.frame.size = CGSize(width: PlaneViewModel.width, height: PlaneViewModel.height)
-        
-        viewModel.append(planeViewModel)
+        spawnNewPlane()
     }
 
     // MARK: - Data model
@@ -53,7 +35,8 @@ class GameBoardViewController: UIViewController {
         }
     }
     private var gameLoopTimer: Timer? = nil
-    private var gameLoopInterval = 1.0
+    private var gameLoopInterval = 0.2
+//    private weak var selectedPlane: UIButton? = nil
 }
 
 // MARK: - UIViewController methods
@@ -70,8 +53,8 @@ extension GameBoardViewController {
 // MARK: - TracePathViewDelegate methods
 extension GameBoardViewController: TracePathViewDelegate {
     
-    func tracePathCompleted(bezierPath: UIBezierPath, planeView: UIView) {
-        stopTracingPath()
+    func tracePathCompleted(bezierPath: UIBezierPath, planeView: UIButton) {
+        stopTracingPath(planeView: planeView)
         resetPlanePath(bezierPath: bezierPath, planeView: planeView)
         drawPlanePath(bezierPath: bezierPath, planeView: planeView)
         orientToPath(bezierPath: bezierPath, planeView: planeView)
@@ -85,24 +68,26 @@ extension GameBoardViewController: TracePathViewDelegate {
 // MARK: - Tracing and path methods
 extension GameBoardViewController {
     
-    private func startTracingPath(planeView: UIView) {
+    private func startTracingPath(planeView: UIButton) {
         guard !isTracingPath else { return }
         print("Start tracing")
+        planeView.isSelected = true
         isTracingPath = true
         tracePathView.start(planeView: planeView)
         tracePathView.isHidden = false
         isGameLoopRunning = false
     }
     
-    private func stopTracingPath() {
+    private func stopTracingPath(planeView: UIButton) {
         guard isTracingPath else { return }
         print("Stop tracing")
+        planeView.isSelected = false
         isTracingPath = false
         tracePathView.isHidden = true
         isGameLoopRunning = true
     }
 
-    private func resetPlanePath(bezierPath: UIBezierPath, planeView: UIView) {
+    private func resetPlanePath(bezierPath: UIBezierPath, planeView: UIButton) {
         for (index, planeViewModel) in viewModel.enumerated() {
             if planeViewModel.planeView == planeView {
                 viewModel[index].plane.resetPath()
@@ -111,7 +96,7 @@ extension GameBoardViewController {
         }
     }
     
-    private func drawPlanePath(bezierPath: UIBezierPath, planeView: UIView) {
+    private func drawPlanePath(bezierPath: UIBezierPath, planeView: UIButton) {
         for (index, planeViewModel) in viewModel.enumerated() {
             if planeViewModel.planeView == planeView {
                 viewModel[index].planeView = planeView
@@ -129,7 +114,7 @@ extension GameBoardViewController {
         }
     }
     
-    private func orientToPath(bezierPath: UIBezierPath, planeView: UIView) {
+    private func orientToPath(bezierPath: UIBezierPath, planeView: UIButton) {
         for (index, planeViewModel) in viewModel.enumerated() {
             if planeViewModel.planeView == planeView {
                 viewModel[index].plane.path = bezierPath
@@ -137,13 +122,13 @@ extension GameBoardViewController {
                 UIView.animate(withDuration: gameLoopInterval, delay: 0, options: [.allowUserInteraction, .curveLinear]) {
                     planeView.transform = CGAffineTransform(rotationAngle: rotation)
                 }
-                print("Rotating to \(rotation) radians")
+//                print("Rotating to \(rotation) radians")
                 break
             }
         }
     }
     
-    private func movePlaneOnPath(bezierPath: UIBezierPath, planeView: UIView) {
+    private func movePlaneOnPath(bezierPath: UIBezierPath, planeView: UIButton) {
         for (index, planeViewModel) in viewModel.enumerated() {
             if planeViewModel.planeView == planeView {
                 let centrePosition = viewModel[index].plane.centrePosition
@@ -180,9 +165,36 @@ extension GameBoardViewController {
     }
 }
 
-// MARK: - Private methods
+// MARK: - Game mechanics methods
 extension GameBoardViewController {
     
+    private func spawnNewPlane() {
+        let planeButton = UIButton()
+        let planeImage = UIImage(named: "airplane")
+        planeButton.setImage(planeImage, for: .normal)
+        let planeSelectedImage = UIImage(named: "airplane-black")
+        planeButton.setImage(planeSelectedImage, for: .selected)
+        planeButton.addTarget(self, action: #selector(planeTapped(sender:)), for: .touchUpInside)
+
+        var planeViewModel = PlaneViewModel()
+        planeViewModel.planeView = planeButton
+        let plane = Plane(initialPosition: getRandomPlaneStartPosition())
+        planeViewModel.plane = plane
+
+        planesView.addSubview(planeButton)
+        planeButton.center = plane.centrePosition
+        planeButton.frame.size = CGSize(width: PlaneViewModel.width, height: PlaneViewModel.height)
+        
+        viewModel.append(planeViewModel)
+    }
+
+    @objc func planeTapped(sender: UIButton) {
+        print("Button tapped")
+//        selectedPlane = sender
+//        selectedPlane?.isSelected = true
+        startTracingPath(planeView: sender)
+    }
+
     private func getRandomPlaneStartPosition() -> CGPoint {
         let topSafeArea = view.frame.origin.y + view.safeAreaInsets.top
         let bottomSafeArea = view.frame.origin.y + view.frame.size.height - view.safeAreaInsets.bottom

@@ -9,7 +9,7 @@ import UIKit
 
 protocol TracePathViewDelegate {
 
-    func tracePathCompleted(bezierPath: UIBezierPath, planeView: UIView)
+    func tracePathCompleted(bezierPath: UIBezierPath, planeView: UIButton)
     func shouldTrace() -> Bool
 }
 
@@ -19,7 +19,7 @@ class TracePathView: UIView {
     var delegate: TracePathViewDelegate? = nil
 
     // MARK: - Public methods
-    func start(planeView: UIView) {
+    func start(planeView: UIButton) {
         lineArray = [CGPoint]()
         self.planeView = planeView
         setNeedsDisplay()
@@ -27,7 +27,7 @@ class TracePathView: UIView {
 
     // MARK: - Private properties
     private var lineArray: [CGPoint] = [CGPoint]()
-    private var planeView: UIView? = nil
+    private var planeView: UIButton? = nil
 }
 
 // MARK: - UIView methods
