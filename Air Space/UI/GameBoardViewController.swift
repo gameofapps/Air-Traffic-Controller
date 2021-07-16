@@ -35,8 +35,7 @@ class GameBoardViewController: UIViewController {
         }
     }
     private var gameLoopTimer: Timer? = nil
-    private var gameLoopInterval = 0.2
-//    private weak var selectedPlane: UIButton? = nil
+    private var gameLoopInterval = 0.3
 }
 
 // MARK: - UIViewController methods
@@ -190,8 +189,6 @@ extension GameBoardViewController {
 
     @objc func planeTapped(sender: UIButton) {
         print("Button tapped")
-//        selectedPlane = sender
-//        selectedPlane?.isSelected = true
         startTracingPath(planeView: sender)
     }
 
