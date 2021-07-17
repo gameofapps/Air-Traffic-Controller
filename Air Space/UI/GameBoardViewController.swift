@@ -21,7 +21,7 @@ class GameBoardViewController: UIViewController {
 
     // MARK: - Data model
     private var viewModel = [PlaneViewModel]()
-
+    
     // MARK: - Private properties
     private var isTracingPath = false
     private var isGameLoopRunning = false {
@@ -44,7 +44,6 @@ extension GameBoardViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         tracePathView.delegate = self
     }
 }
@@ -160,6 +159,21 @@ extension GameBoardViewController {
             drawPlanePath(bezierPath: path, planeView: planeView)
             orientToPath(bezierPath: path, planeView: planeView)
             movePlaneOnPath(bezierPath: path, planeView: planeView)
+        }
+        
+        checkForCollisions()
+    }
+    
+    private func checkForCollisions() {
+        guard viewModel.count > 1 else { return }
+        for first in 0 ..< viewModel.count-1 {
+            for second in first+1 ..< viewModel.count {
+                guard let firstFrame = viewModel[first].planeView?.frame, let secondFrame = viewModel[second].planeView?.frame else { continue }
+                if firstFrame.intersects(secondFrame) {
+                    print("Collided")
+                    return
+                }
+            }
         }
     }
 }
