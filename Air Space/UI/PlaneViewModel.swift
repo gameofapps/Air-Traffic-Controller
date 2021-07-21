@@ -8,11 +8,17 @@
 import UIKit
 import SpriteKit
 
-struct PlaneViewModel {
+protocol PlaneViewModelDelegate : AnyObject {
+    
+    func didSelect(planeViewModel: PlaneViewModel)
+}
+
+class PlaneViewModel {
 
     var plane = Plane(initialPosition: CGPoint.zero)
     var pathShape = CAShapeLayer()
     var planeNode: PlaneNode
+    weak var delegate: PlaneViewModelDelegate? = nil
     
     var isSelected: Bool {
         didSet {
@@ -47,16 +53,16 @@ struct PlaneViewModel {
         self.planeNode = planeNode
         isSelected = false
         isCollided = false
+        self.planeNode.delegate = self
     }
 }
-//
-//extension PlaneViewModel : Hashable {
-//    
-//    static func == (lhs: PlaneViewModel, rhs: PlaneViewModel) -> Bool {
-//        return lhs.plane == rhs.plane
-//    }
-//    
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(plane)
-//    }
-//}
+
+extension PlaneViewModel : PlaneNodeDelegate {
+    
+    func didTouchDown(planeNode: PlaneNode) {}
+    func didTouchUpOutside(planeNode: PlaneNode) {}
+
+    func didTouchUpInside(planeNode: PlaneNode) {
+        delegate?.didSelect(planeViewModel: self)
+    }
+}

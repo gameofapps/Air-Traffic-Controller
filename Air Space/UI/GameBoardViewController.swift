@@ -47,9 +47,14 @@ extension GameBoardViewController {
         super.viewDidLoad()
 
         tracePathView.delegate = self
-        
+        isTracingPath = false
+        tracePathView.isHidden = true
+        isGameLoopRunning = false
+
         gameScene = GameScene()
+        gameScene?.isUserInteractionEnabled = true
         spriteKitView.presentScene(gameScene)
+        spriteKitView.isUserInteractionEnabled = true
     }
 }
 
@@ -74,7 +79,7 @@ extension GameBoardViewController {
     private func startTracingPath(planeViewModel: PlaneViewModel) {
         guard !isTracingPath else { return }
         print("Start tracing")
-//        planeViewModel.isSelected = true
+        planeViewModel.isSelected = true
         isTracingPath = true
         tracePathView.start(planeViewModel: planeViewModel)
         tracePathView.isHidden = false
@@ -84,7 +89,7 @@ extension GameBoardViewController {
     private func stopTracingPath(planeViewModel: PlaneViewModel) {
         guard isTracingPath else { return }
         print("Stop tracing")
-//        planeViewModel.isSelected = false
+        planeViewModel.isSelected = false
         isTracingPath = false
         tracePathView.isHidden = true
         isGameLoopRunning = true
@@ -188,12 +193,11 @@ extension GameBoardViewController {
 
 // MARK: - Game mechanics methods
 extension GameBoardViewController {
-    
+
     private func spawnNewPlane() {
         guard let gameScene = gameScene else { return }
         let planeViewModel = gameScene.spawnNewPlane()
-        let planeNode = planeViewModel.planeNode
-        planeNode.delegate = self
+        planeViewModel.delegate = self
         viewModel.append(planeViewModel)
 //        let planeButton = UIButton()
 //        planeButton.addTarget(self, action: #selector(planeTapped(sender:)), for: .touchUpInside)
@@ -237,13 +241,9 @@ extension GameBoardViewController {
 }
 
 // MARK: - PlaneNodeDelegate methods
-extension GameBoardViewController : PlaneNodeDelegate {
+extension GameBoardViewController : PlaneViewModelDelegate {
     
-    func didTouchDown(planeNode: PlaneNode) {}
-    
-    func didTouchUpInside(planeNode: PlaneNode) {
-        print("Tapped plane")
+    func didSelect(planeViewModel: PlaneViewModel) {
+        startTracingPath(planeViewModel: planeViewModel)
     }
-    
-    func didTouchUpOutside(planeNode: PlaneNode) {}
 }

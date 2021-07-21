@@ -8,7 +8,7 @@
 import UIKit
 import SpriteKit
 
-protocol PlaneNodeDelegate : AnyObject {
+protocol PlaneNodeDelegate {
     
     func didTouchDown(planeNode: PlaneNode)
     func didTouchUpInside(planeNode: PlaneNode)
@@ -18,7 +18,7 @@ protocol PlaneNodeDelegate : AnyObject {
 class PlaneNode: SKSpriteNode {
 
     // Public properties
-    weak var delegate: PlaneNodeDelegate? = nil
+    var delegate: PlaneNodeDelegate? = nil
 
     // Private properties
     private var touchLocationLast: CGPoint? = nil
@@ -28,6 +28,7 @@ class PlaneNode: SKSpriteNode {
         let texture = SKTexture(imageNamed: "airplane")
         super.init(texture: texture, color: .clear, size: texture.size())
         size = CGSize(width: PlaneViewModel.width, height: PlaneViewModel.height)
+        isUserInteractionEnabled = true
     }
 
     required init(coder aDecoder: NSCoder) {
