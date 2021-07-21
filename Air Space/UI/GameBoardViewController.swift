@@ -181,6 +181,7 @@ extension GameBoardViewController {
                         print("Collision detected")
                         viewModel[firstIndex].collided = true
                         viewModel[secondIndex].collided = true
+                        stopGameLoop()
                     }
                 }
             }
