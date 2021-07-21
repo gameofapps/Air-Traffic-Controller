@@ -25,33 +25,39 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bij-PO-gjj">
-                                        <rect key="frame" x="170" y="201" width="74" height="201"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                        <state key="normal" title="Easy"/>
+                                        <rect key="frame" x="161" y="201" width="92" height="201"/>
+                                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="36"/>
+                                        <state key="normal" title="Easy">
+                                            <color key="titleColor" systemColor="systemPurpleColor"/>
+                                        </state>
                                         <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" type="system" pointSize="64"/>
+                                            <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="64"/>
                                         </variation>
                                         <connections>
                                             <action selector="easyButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dmW-l8-MeL"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HEV-Df-pKm">
-                                        <rect key="frame" x="144" y="402" width="126" height="201"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                        <state key="normal" title="Medium"/>
+                                        <rect key="frame" x="128" y="402" width="158" height="201"/>
+                                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="36"/>
+                                        <state key="normal" title="Medium">
+                                            <color key="titleColor" systemColor="systemPurpleColor"/>
+                                        </state>
                                         <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" type="system" pointSize="64"/>
+                                            <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="64"/>
                                         </variation>
                                         <connections>
                                             <action selector="mediumButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1eu-pn-VBC"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S3Z-1v-IEX">
-                                        <rect key="frame" x="147" y="603" width="120" height="201"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                        <state key="normal" title="Difficult"/>
+                                        <rect key="frame" x="123" y="603" width="168" height="201"/>
+                                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="36"/>
+                                        <state key="normal" title="Difficult">
+                                            <color key="titleColor" systemColor="systemPurpleColor"/>
+                                        </state>
                                         <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" type="system" pointSize="64"/>
+                                            <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="64"/>
                                         </variation>
                                         <connections>
                                             <action selector="difficultButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TDl-2n-F4p"/>
@@ -89,7 +95,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fMp-fX-Umr" userLabel="planesView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fMp-fX-Umr" userLabel="spriteKitView" customClass="SKView">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -124,7 +130,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="pathsView" destination="jfD-fb-0qA" id="6mn-P4-eK5"/>
-                        <outlet property="planesView" destination="fMp-fX-Umr" id="sIx-xk-Yng"/>
+                        <outlet property="spriteKitView" destination="fMp-fX-Umr" id="GDd-m0-7mB"/>
                         <outlet property="tracePathView" destination="jrh-hD-es5" id="V7z-Cg-CMB"/>
                     </connections>
                 </viewController>
@@ -152,12 +158,16 @@
             <point key="canvasLocation" x="121.73913043478262" y="113.83928571428571"/>
         </scene>
     </scenes>
+    <color key="tintColor" systemColor="systemPurpleColor"/>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemPurpleColor">
+            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

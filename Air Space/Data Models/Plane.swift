@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Plane {
+struct Plane : Equatable {
 
     // Public properties
     var velocity: PlaneSpeed = .speed1
@@ -63,6 +63,14 @@ struct Plane {
     // Private properties
     private var initialPosition: CGPoint? = nil
 }
+//
+//extension Plane : Equatable, Hashable {
+//    
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(initialPosition?.x)
+//        hasher.combine(initialPosition?.y)
+//    }
+//}
 
 enum PlaneSpeed: Int {
     

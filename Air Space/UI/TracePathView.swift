@@ -9,7 +9,7 @@ import UIKit
 
 protocol TracePathViewDelegate {
 
-    func tracePathCompleted(bezierPath: UIBezierPath, planeView: UIButton)
+    func tracePathCompleted(bezierPath: UIBezierPath, planeViewModel: PlaneViewModel)
     func shouldTrace() -> Bool
 }
 
@@ -19,15 +19,15 @@ class TracePathView: UIView {
     var delegate: TracePathViewDelegate? = nil
 
     // MARK: - Public methods
-    func start(planeView: UIButton) {
+    func start(planeViewModel: PlaneViewModel) {
         lineArray = [CGPoint]()
-        self.planeView = planeView
+        self.planeViewModel = planeViewModel
         setNeedsDisplay()
     }
 
     // MARK: - Private properties
     private var lineArray: [CGPoint] = [CGPoint]()
-    private var planeView: UIButton? = nil
+    private var planeViewModel: PlaneViewModel? = nil
 }
 
 // MARK: - UIView methods
@@ -35,11 +35,11 @@ extension TracePathView {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard delegate?.shouldTrace() == true else { return }
-        guard let planeView = planeView else { return }
+        guard let planeViewModel = planeViewModel else { return }
         guard let touch = touches.first else { return }
         let firstPoint = touch.location(in: self)
 
-        start(planeView: planeView)
+        start(planeViewModel: planeViewModel)
         addPoint(point: firstPoint)
     }
 
@@ -53,7 +53,7 @@ extension TracePathView {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard delegate?.shouldTrace() == true else { return }
-        guard let planeView = planeView else { return }
+        guard let planeViewModel = planeViewModel else { return }
         print("Touches ended")
         guard lineArray.count > 1 else { return }
         
@@ -63,8 +63,8 @@ extension TracePathView {
             bezierPath.addLine(to: lineArray[i])
         }
         
-        delegate?.tracePathCompleted(bezierPath: bezierPath, planeView: planeView)
-        start(planeView: planeView)
+        delegate?.tracePathCompleted(bezierPath: bezierPath, planeViewModel: planeViewModel)
+        start(planeViewModel: planeViewModel)
     }
 
     override func draw(_ rect: CGRect) {

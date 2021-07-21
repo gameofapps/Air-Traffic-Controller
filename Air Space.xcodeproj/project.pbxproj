@@ -21,6 +21,8 @@
 		2A8C750026957A1E00A2837F /* GameBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */; };
 		2AC049B12696BAEF0005B6A2 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC049B02696BAEF0005B6A2 /* Beacon.swift */; };
 		3042A81E269E01A80074F5BD /* PlaneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3042A81D269E01A80074F5BD /* PlaneViewModel.swift */; };
+		30FD8A1326A891E2004F7941 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD8A1226A891E2004F7941 /* GameScene.swift */; };
+		30FD8A1526A8947E004F7941 /* PlaneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD8A1426A8947E004F7941 /* PlaneNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,8 @@
 		2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardViewController.swift; sourceTree = "<group>"; };
 		2AC049B02696BAEF0005B6A2 /* Beacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
 		3042A81D269E01A80074F5BD /* PlaneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneViewModel.swift; sourceTree = "<group>"; };
+		30FD8A1226A891E2004F7941 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		30FD8A1426A8947E004F7941 /* PlaneNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +161,8 @@
 				2A8C74D026955AA500A2837F /* Main.storyboard */,
 				2A8C74CE26955AA500A2837F /* WelcomeViewController.swift */,
 				2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */,
+				30FD8A1226A891E2004F7941 /* GameScene.swift */,
+				30FD8A1426A8947E004F7941 /* PlaneNode.swift */,
 				3042A81D269E01A80074F5BD /* PlaneViewModel.swift */,
 				2A8C74FB2695606B00A2837F /* TracePathView.swift */,
 			);
@@ -302,11 +308,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30FD8A1326A891E2004F7941 /* GameScene.swift in Sources */,
 				2A8C74CF26955AA500A2837F /* WelcomeViewController.swift in Sources */,
 				2A8C74FE269570B400A2837F /* UIBezierPath+Superpowers.swift in Sources */,
 				2A8C74FC2695606B00A2837F /* TracePathView.swift in Sources */,
 				2A8C750026957A1E00A2837F /* GameBoardViewController.swift in Sources */,
 				3042A81E269E01A80074F5BD /* PlaneViewModel.swift in Sources */,
+				30FD8A1526A8947E004F7941 /* PlaneNode.swift in Sources */,
 				2AC049B12696BAEF0005B6A2 /* Beacon.swift in Sources */,
 				2A8C74CB26955AA500A2837F /* AppDelegate.swift in Sources */,
 				2A0608762696BF7C007C0789 /* Plane.swift in Sources */,

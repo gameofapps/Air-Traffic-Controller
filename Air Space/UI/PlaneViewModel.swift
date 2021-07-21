@@ -6,26 +6,36 @@
 //
 
 import UIKit
+import SpriteKit
 
 struct PlaneViewModel {
 
     var plane = Plane(initialPosition: CGPoint.zero)
     var pathShape = CAShapeLayer()
-    var planeButton: UIButton?
+    var planeNode: PlaneNode
     
-    var collided: Bool {
+    var isSelected: Bool {
         didSet {
-            if collided {
-                let planeImage = UIImage(named: "airplane-red")
-                planeButton?.setImage(planeImage, for: .normal)
-                let planeSelectedImage = UIImage(named: "airplane-red")
-                planeButton?.setImage(planeSelectedImage, for: .selected)
+            guard !isCollided else { return }
+            if isSelected {
+                planeNode.texture = SKTexture(imageNamed: "airplane-black")
             }
             else {
-                let planeImage = UIImage(named: "airplane")
-                planeButton?.setImage(planeImage, for: .normal)
-                let planeSelectedImage = UIImage(named: "airplane-black")
-                planeButton?.setImage(planeSelectedImage, for: .selected)
+                planeNode.texture = SKTexture(imageNamed: "airplane")
+            }
+        }
+    }
+    
+    var isCollided: Bool {
+        didSet {
+            if isCollided {
+                planeNode.texture = SKTexture(imageNamed: "airplane-red")
+            }
+            else if isSelected {
+                planeNode.texture = SKTexture(imageNamed: "airplane-black")
+            }
+            else {
+                planeNode.texture = SKTexture(imageNamed: "airplane")
             }
         }
     }
@@ -33,7 +43,20 @@ struct PlaneViewModel {
     static let width: CGFloat = 80.0
     static let height: CGFloat = 81.0
     
-    init() {
-        collided = false
+    init(planeNode: PlaneNode) {
+        self.planeNode = planeNode
+        isSelected = false
+        isCollided = false
     }
 }
+//
+//extension PlaneViewModel : Hashable {
+//    
+//    static func == (lhs: PlaneViewModel, rhs: PlaneViewModel) -> Bool {
+//        return lhs.plane == rhs.plane
+//    }
+//    
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(plane)
+//    }
+//}
