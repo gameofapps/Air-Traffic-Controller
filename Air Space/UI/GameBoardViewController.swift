@@ -63,6 +63,14 @@ extension GameBoardViewController: TracePathViewDelegate {
     }
 }
 
+// MARK: - UICollisionDelegate methods
+extension GameBoardViewController: UICollisionBehaviorDelegate {
+    
+    func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item1: UIDynamicItem, with item2: UIDynamicItem, at p: CGPoint) {
+        print("Collision detected")
+    }
+}
+
 // MARK: - Tracing and path methods
 extension GameBoardViewController {
     
@@ -87,7 +95,7 @@ extension GameBoardViewController {
 
     private func resetPlanePath(bezierPath: UIBezierPath, planeView: UIButton) {
         for (index, planeViewModel) in viewModel.enumerated() {
-            if planeViewModel.planeView == planeView {
+            if planeViewModel.planeButton == planeView {
                 viewModel[index].plane.resetPath()
                 break
             }
@@ -96,8 +104,8 @@ extension GameBoardViewController {
     
     private func drawPlanePath(bezierPath: UIBezierPath, planeView: UIButton) {
         for (index, planeViewModel) in viewModel.enumerated() {
-            if planeViewModel.planeView == planeView {
-                viewModel[index].planeView = planeView
+            if planeViewModel.planeButton == planeView {
+                viewModel[index].planeButton = planeView
                 viewModel[index].pathShape.removeFromSuperlayer()
                 viewModel[index].pathShape = CAShapeLayer()
                 viewModel[index].pathShape.path = bezierPath.cgPath
@@ -114,7 +122,7 @@ extension GameBoardViewController {
     
     private func orientToPath(bezierPath: UIBezierPath, planeView: UIButton) {
         for (index, planeViewModel) in viewModel.enumerated() {
-            if planeViewModel.planeView == planeView {
+            if planeViewModel.planeButton == planeView {
                 viewModel[index].plane.path = bezierPath
                 let rotation = viewModel[index].plane.headingInRadians()
                 UIView.animate(withDuration: gameLoopInterval, delay: 0, options: [.allowUserInteraction, .curveLinear]) {
@@ -128,7 +136,7 @@ extension GameBoardViewController {
     
     private func movePlaneOnPath(bezierPath: UIBezierPath, planeView: UIButton) {
         for (index, planeViewModel) in viewModel.enumerated() {
-            if planeViewModel.planeView == planeView {
+            if planeViewModel.planeButton == planeView {
                 let centrePosition = viewModel[index].plane.centrePosition
                 UIView.animate(withDuration: gameLoopInterval, delay: 0, options: [.allowUserInteraction, .curveLinear]) {
                     planeView.center = centrePosition
@@ -155,23 +163,25 @@ extension GameBoardViewController {
 //        print("Timer fired!")
         for (index, planeViewModel) in viewModel.enumerated() {
             viewModel[index].plane.move()
-            guard let path = viewModel[index].plane.path, let planeView = planeViewModel.planeView else { return }
+            guard let path = viewModel[index].plane.path, let planeView = planeViewModel.planeButton else { return }
             drawPlanePath(bezierPath: path, planeView: planeView)
             orientToPath(bezierPath: path, planeView: planeView)
             movePlaneOnPath(bezierPath: path, planeView: planeView)
         }
         
-        checkForCollisions()
+        checkForCollision()
     }
     
-    private func checkForCollisions() {
+    private func checkForCollision() {
         guard viewModel.count > 1 else { return }
-        for first in 0 ..< viewModel.count-1 {
-            for second in first+1 ..< viewModel.count {
-                guard let firstFrame = viewModel[first].planeView?.frame, let secondFrame = viewModel[second].planeView?.frame else { continue }
-                if firstFrame.intersects(secondFrame) {
-                    print("Collided")
-                    return
+        for firstIndex in 0 ..< viewModel.count - 1 {
+            for secondIndex in 1 ..< viewModel.count {
+                if let firstPlaneFrame = viewModel[firstIndex].planeButton?.frame, let secondPlaneFrame = viewModel[secondIndex].planeButton?.frame {
+                    if firstPlaneFrame.intersects(secondPlaneFrame) {
+                        print("Collision detected")
+                        viewModel[firstIndex].collided = true
+                        viewModel[secondIndex].collided = true
+                    }
                 }
             }
         }
@@ -183,14 +193,12 @@ extension GameBoardViewController {
     
     private func spawnNewPlane() {
         let planeButton = UIButton()
-        let planeImage = UIImage(named: "airplane")
-        planeButton.setImage(planeImage, for: .normal)
-        let planeSelectedImage = UIImage(named: "airplane-black")
-        planeButton.setImage(planeSelectedImage, for: .selected)
         planeButton.addTarget(self, action: #selector(planeTapped(sender:)), for: .touchUpInside)
 
         var planeViewModel = PlaneViewModel()
-        planeViewModel.planeView = planeButton
+        planeViewModel.planeButton = planeButton
+        planeViewModel.collided = false
+
         let plane = Plane(initialPosition: getRandomPlaneStartPosition())
         planeViewModel.plane = plane
 
@@ -213,14 +221,14 @@ extension GameBoardViewController {
         let rightSafeArea = view.frame.origin.x + view.frame.size.width - view.safeAreaInsets.right
         let minimumX = leftSafeArea + PlaneViewModel.width / 2.0
         let maximumX = rightSafeArea - PlaneViewModel.width / 2.0
-        print("minimumX: \(minimumX), maximumX: \(maximumX)")
+//        print("minimumX: \(minimumX), maximumX: \(maximumX)")
         let xCoord = CGFloat.random(in: minimumX ... maximumX)
         let minimumY = topSafeArea + PlaneViewModel.height / 2.0
         let maximumY = bottomSafeArea - PlaneViewModel.height / 2.0
-        print("minimumY: \(minimumY), maximumY: \(maximumY)")
+//        print("minimumY: \(minimumY), maximumY: \(maximumY)")
         let yCoord = CGFloat.random(in: minimumY ... maximumY)
         let position = CGPoint(x: xCoord, y: yCoord)
-        print("xCoord: \(xCoord), yCoord: \(yCoord)")
+//        print("xCoord: \(xCoord), yCoord: \(yCoord)")
         return position
     }
 }
