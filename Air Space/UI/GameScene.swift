@@ -39,14 +39,14 @@ extension GameScene {
     private func getRandomPlaneStartPosition() -> CGPoint {
         let minimumX = 0.0 + PlaneViewModel.width / 2.0
         let maximumX = size.width - PlaneViewModel.width / 2.0
-        print("minimumX: \(minimumX), maximumX: \(maximumX)")
+//        print("minimumX: \(minimumX), maximumX: \(maximumX)")
         let xCoord = CGFloat.random(in: minimumX ... maximumX)
         let minimumY = 0.0 + PlaneViewModel.height / 2.0
         let maximumY = size.height - PlaneViewModel.height / 2.0
-        print("minimumY: \(minimumY), maximumY: \(maximumY)")
+//        print("minimumY: \(minimumY), maximumY: \(maximumY)")
         let yCoord = CGFloat.random(in: minimumY ... maximumY)
         let position = CGPoint(x: xCoord, y: yCoord)
-        print("xCoord: \(xCoord), yCoord: \(yCoord)")
+//        print("xCoord: \(xCoord), yCoord: \(yCoord)")
         return position
     }
 }

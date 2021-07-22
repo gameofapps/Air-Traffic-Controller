@@ -15,7 +15,8 @@ protocol PlaneViewModelDelegate : AnyObject {
 
 class PlaneViewModel {
 
-    var plane = Plane(initialPosition: CGPoint.zero)
+//    var plane = Plane(initialPosition: CGPoint.zero)
+    var plane = Plane()
     var pathShape = CAShapeLayer()
     var planeNode: PlaneNode
     weak var delegate: PlaneViewModelDelegate? = nil
@@ -54,6 +55,13 @@ class PlaneViewModel {
         isSelected = false
         isCollided = false
         self.planeNode.delegate = self
+    }
+}
+
+extension PlaneViewModel : Equatable {
+    
+    static func == (lhs: PlaneViewModel, rhs: PlaneViewModel) -> Bool {
+        return lhs.plane == rhs.plane
     }
 }
 

@@ -14,63 +14,55 @@ struct Plane : Equatable {
     var path: UIBezierPath? = nil {
         didSet {
             if path != nil {
-                initialPosition = nil
+//                initialPosition = nil
             }
         }
     }
 
-    // Public read-only properties
-    private (set) public var percentageComplete: CGFloat = 0.0
-
-    var centrePosition: CGPoint {
-        if let path = path {
-            let centrePosition = path.mx_point(atFractionOfLength: percentageComplete)
-            return centrePosition
-        }
-        else if let initialPosition = initialPosition {
-            return initialPosition
-        }
-        else {
-            return CGPoint.zero
-        }
-    }
-
-    // Public methods
-    init(initialPosition: CGPoint) {
-        self.initialPosition = initialPosition
-    }
-
-    mutating func resetPath() {
-        percentageComplete = 0.0
-    }
-
-    mutating func move() {
-        guard let path = path else { return }
-        let speed = velocity.rawValue
-        let length = path.mx_length
-        let fraction = CGFloat(speed) / length
-        percentageComplete += fraction
-    }
-    
-    func headingInRadians() -> CGFloat {
-        let percentageComplete = self.percentageComplete <= 0.0 ? 0.01 : self.percentageComplete
-        guard let tangent = path?.mx_tangentAngle(atFractionOfLength: percentageComplete) else {
-            return 0.0
-        }
-        return CGFloat(Double.pi / 2) - tangent
-    }
-    
-    // Private properties
-    private var initialPosition: CGPoint? = nil
-}
+//    // Public read-only properties
+//    private (set) public var percentageComplete: CGFloat = 0.0
 //
-//extension Plane : Equatable, Hashable {
-//    
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(initialPosition?.x)
-//        hasher.combine(initialPosition?.y)
+//    var centrePosition: CGPoint {
+//        if let path = path {
+//            let centrePosition = path.mx_point(atFractionOfLength: percentageComplete)
+//            return centrePosition
+//        }
+//        else if let initialPosition = initialPosition {
+//            return initialPosition
+//        }
+//        else {
+//            return CGPoint.zero
+//        }
 //    }
-//}
+//
+//    // Public methods
+//    init(initialPosition: CGPoint) {
+//        self.initialPosition = initialPosition
+//    }
+//
+//    mutating func resetPath() {
+//        percentageComplete = 0.0
+//    }
+//
+//    mutating func move() {
+//        guard let path = path else { return }
+//        let speed = velocity.rawValue
+//        let length = path.mx_length
+//        let fraction = CGFloat(speed) / length
+//        percentageComplete += fraction
+//    }
+//
+//    func headingInRadians() -> CGFloat {
+//        let percentageComplete = self.percentageComplete <= 0.0 ? 0.01 : self.percentageComplete
+//        guard let tangent = path?.mx_tangentAngle(atFractionOfLength: percentageComplete) else {
+//            return 0.0
+//        }
+//        return CGFloat(Double.pi / 2) - tangent
+//    }
+//
+//    // Private properties
+//    private var initialPosition: CGPoint? = nil
+}
 
 enum PlaneSpeed: Int {
     

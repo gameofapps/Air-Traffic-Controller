@@ -96,9 +96,11 @@ extension GameBoardViewController {
     }
 
     private func resetPlanePath(bezierPath: UIBezierPath, planeViewModel: PlaneViewModel) {
-        for (index, aPlaneViewModel) in viewModel.enumerated() {
-            if aPlaneViewModel.plane == planeViewModel.plane {
-                viewModel[index].plane.resetPath()
+        for aPlaneViewModel in viewModel {
+            if aPlaneViewModel == planeViewModel {
+//                aPlaneViewModel.plane.resetPath()
+//
+                aPlaneViewModel.planeNode.setMotion(on: bezierPath)
                 break
             }
         }
@@ -114,8 +116,8 @@ extension GameBoardViewController {
                 viewModel[index].pathShape.strokeColor = UIColor.darkGray.cgColor
                 viewModel[index].pathShape.fillColor = UIColor.clear.cgColor
                 viewModel[index].pathShape.lineWidth = 5.0
-                viewModel[index].pathShape.strokeStart = viewModel[index].plane.percentageComplete
-                viewModel[index].pathShape.strokeEnd = 1.0
+//                viewModel[index].pathShape.strokeStart = viewModel[index].plane.percentageComplete
+//                viewModel[index].pathShape.strokeEnd = 1.0
                 pathsView.layer.addSublayer(viewModel[index].pathShape)
                 break
             }
@@ -164,7 +166,7 @@ extension GameBoardViewController {
     @objc func gameLoopTimerFired() {
 //        print("Timer fired!")
         for (index, _) in viewModel.enumerated() {
-            viewModel[index].plane.move()
+//            viewModel[index].plane.move()
             guard let path = viewModel[index].plane.path else { return }
             drawPlanePath(bezierPath: path, planeViewModel: viewModel[index])
 //            orientToPath(bezierPath: path, planeView: planeView)
