@@ -25,19 +25,7 @@ class GameBoardViewController: UIViewController {
     
     // MARK: - Private properties
     private var isTracingPath = false
-    private var isGameLoopRunning = false {
-        didSet {
-            if isGameLoopRunning {
-                startGameLoop()
-            }
-            else {
-                stopGameLoop()
-            }
-        }
-    }
     private var gameScene: GameScene? = nil
-    private var gameLoopTimer: Timer? = nil
-    private var gameLoopInterval = 0.3
 }
 
 // MARK: - UIViewController methods
@@ -49,11 +37,10 @@ extension GameBoardViewController {
         tracePathView.delegate = self
         isTracingPath = false
         tracePathView.isHidden = true
-        isGameLoopRunning = false
 
         gameScene = GameScene()
         gameScene?.isUserInteractionEnabled = true
-        gameScene?.physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
+        gameScene?.gameSceneDelegate = self
         spriteKitView.presentScene(gameScene)
         spriteKitView.isUserInteractionEnabled = true
     }
@@ -83,7 +70,6 @@ extension GameBoardViewController {
         isTracingPath = true
         tracePathView.start(planeViewModel: planeViewModel)
         tracePathView.isHidden = false
-        isGameLoopRunning = false
     }
     
     private func stopTracingPath(planeViewModel: PlaneViewModel) {
@@ -92,7 +78,6 @@ extension GameBoardViewController {
         planeViewModel.isSelected = false
         isTracingPath = false
         tracePathView.isHidden = true
-        isGameLoopRunning = true
     }
 
     private func resetPlanePath(bezierPath: UIBezierPath, planeViewModel: PlaneViewModel) {
@@ -127,32 +112,6 @@ extension GameBoardViewController {
     }
 }
 
-// MARK: - Game loop methods
-extension GameBoardViewController {
-    
-    private func startGameLoop() {
-        stopGameLoop()
-        gameLoopTimer = Timer.scheduledTimer(timeInterval: gameLoopInterval, target: self, selector: #selector(gameLoopTimerFired), userInfo: nil, repeats: true)
-    }
-    
-    private func stopGameLoop() {
-        gameLoopTimer?.invalidate()
-    }
-    
-    @objc func gameLoopTimerFired() {
-////        print("Timer fired!")
-//        for (index, _) in viewModel.enumerated() {
-////            viewModel[index].plane.move()
-//            guard let path = viewModel[index].plane.path else { return }
-//            drawPlanePath(planeViewModel: viewModel[index])
-////            orientToPath(bezierPath: path, planeView: planeView)
-////            movePlaneOnPath(bezierPath: path, planeView: planeView)
-//        }
-////
-////        checkForCollision()
-    }
-}
-
 // MARK: - Game mechanics methods
 extension GameBoardViewController {
 
@@ -163,6 +122,15 @@ extension GameBoardViewController {
         planeViewModel.planeNode.defaultSpeed = planeViewModel.plane.velocity.rawValue
         viewModel.append(planeViewModel)
     }
+    
+    private func viewModel(for planeNode: PlaneNode) -> PlaneViewModel? {
+        for planeViewModel in viewModel {
+            if planeViewModel.planeNode == planeNode {
+                return planeViewModel
+            }
+        }
+        return nil
+    }
 }
 
 // MARK: - PlaneNodeDelegate methods
@@ -170,5 +138,19 @@ extension GameBoardViewController : PlaneViewModelDelegate {
     
     func didSelect(planeViewModel: PlaneViewModel) {
         startTracingPath(planeViewModel: planeViewModel)
+    }
+}
+
+// MARK: - GameSceneDelegate methods
+extension GameBoardViewController : GameSceneDelegate {
+    
+    func didCollide(gameScene: GameScene, planeA: PlaneNode, planeB: PlaneNode) {
+        gameScene.view?.isPaused = true
+        if let firstPlaneViewModel = viewModel(for: planeA) {
+            firstPlaneViewModel.isCollided = true
+        }
+        if let secondPlaneViewModel = viewModel(for: planeB) {
+            secondPlaneViewModel.isCollided = true
+        }
     }
 }

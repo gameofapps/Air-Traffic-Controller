@@ -8,8 +8,17 @@
 import UIKit
 import SpriteKit
 
+protocol GameSceneDelegate : AnyObject {
+    
+    func didCollide(gameScene: GameScene, planeA: PlaneNode, planeB: PlaneNode)
+}
+
 class GameScene: SKScene {
 
+    // Public properties
+    weak var gameSceneDelegate: GameSceneDelegate? = nil
+
+    // Public methods
     func spawnNewPlane() -> PlaneViewModel {
         let planeNode = PlaneNode()
         planeNode.position = getRandomPlaneStartPosition()
@@ -30,12 +39,27 @@ extension GameScene {
         view.showsFPS = true
         view.showsNodeCount = true
         view.ignoresSiblingOrder = true
+        
+        physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
+        physicsWorld.contactDelegate = self
     }
     
     override func update(_ currentTime: TimeInterval) {
         for node in children {
             if let planeNode = node as? PlaneNode {
                 planeNode.updateFreeFlightIfNeeded()
+            }
+        }
+    }
+}
+
+// MARK: - SKPhysicsContactDelegate methods
+extension GameScene : SKPhysicsContactDelegate {
+
+    func didBegin(_ contact: SKPhysicsContact) {
+        if let firstPlane = contact.bodyA.node as? PlaneNode {
+            if let secondPlane = contact.bodyB.node as? PlaneNode {
+                gameSceneDelegate?.didCollide(gameScene: self, planeA: firstPlane, planeB: secondPlane)
             }
         }
     }

@@ -61,9 +61,7 @@ class PlaneNode: SKSpriteNode {
     }
 
     func updateFreeFlightIfNeeded() {
-        print("Updating free flight if needed")
         guard inFreeFlight else { return }
-        print("Updating free flight")
         guard let xVelocity = physicsBody?.velocity.dx, let yVelocity = physicsBody?.velocity.dy else { return }
         let magnitude: CGFloat = sqrt(xVelocity*xVelocity + yVelocity*yVelocity)
         let angle: CGFloat = atan2(yVelocity, xVelocity)
@@ -82,6 +80,7 @@ class PlaneNode: SKSpriteNode {
         physicsBody?.friction = 0.0
         physicsBody?.restitution = 1.0
         physicsBody?.mass = 0.1
+        physicsBody?.contactTestBitMask = physicsBody?.collisionBitMask ?? 0xFFFFFFFF
     }
 
     required init(coder aDecoder: NSCoder) {
