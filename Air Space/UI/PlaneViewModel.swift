@@ -15,7 +15,6 @@ protocol PlaneViewModelDelegate : AnyObject {
 
 class PlaneViewModel {
 
-//    var plane = Plane(initialPosition: CGPoint.zero)
     var plane = Plane()
     var pathShape = CAShapeLayer()
     var planeNode: PlaneNode
@@ -48,7 +47,7 @@ class PlaneViewModel {
     }
 
     static let width: CGFloat = 80.0
-    static let height: CGFloat = 81.0
+    static let height: CGFloat = 80.0
     
     init(planeNode: PlaneNode) {
         self.planeNode = planeNode
