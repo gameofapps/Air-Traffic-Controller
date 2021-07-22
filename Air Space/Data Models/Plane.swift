@@ -19,6 +19,7 @@ struct Plane : Equatable {
         }
     }
 
+    private var uuid = UUID()
 //    // Public read-only properties
 //    private (set) public var percentageComplete: CGFloat = 0.0
 //

@@ -38,6 +38,7 @@ class PlaneNode: SKSpriteNode {
             transformedBezierPath.addLine(to: transformedPoints[i])
         }
 
+        removeAllActions()
         let move = SKAction.follow(transformedBezierPath.cgPath, asOffset: false, orientToPath: true, speed: 20)
         run(move)
     }

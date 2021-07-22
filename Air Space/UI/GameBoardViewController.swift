@@ -118,7 +118,20 @@ extension GameBoardViewController {
                 viewModel[index].pathShape.lineWidth = 5.0
 //                viewModel[index].pathShape.strokeStart = viewModel[index].plane.percentageComplete
 //                viewModel[index].pathShape.strokeEnd = 1.0
+                viewModel[index].pathShape.opacity = 1.0
                 pathsView.layer.addSublayer(viewModel[index].pathShape)
+                
+                let fadeOut = CABasicAnimation(keyPath: "opacity")
+                fadeOut.fromValue = 1.0
+                fadeOut.toValue = 0.0
+                fadeOut.duration = 1.0
+                fadeOut.autoreverses = false
+//                fadeOut.beginTime = 1.0
+//                fadeOut.repeatCount = 1.0
+                fadeOut.fillMode = .forwards
+                fadeOut.isRemovedOnCompletion = false
+                viewModel[index].pathShape.add(fadeOut, forKey: "fadeOutAnimation")
+
                 break
             }
         }
