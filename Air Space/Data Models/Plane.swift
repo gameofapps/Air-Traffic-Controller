@@ -10,17 +10,17 @@ import UIKit
 struct Plane : Equatable {
 
     // Public properties
-    var velocity: PlaneSpeed = .speed1
+    var velocity: PlaneSpeed = .speed3
     var path: UIBezierPath? = nil
 
     private var uuid = UUID()
 }
 
-enum PlaneSpeed: Int {
+enum PlaneSpeed: CGFloat {
     
-    case speed1 = 10
-    case speed2 = 15
-    case speed3 = 20
-    case speed4 = 25
-    case speed5 = 30
+    case speed1 = 20
+    case speed2 = 30
+    case speed3 = 40
+    case speed4 = 50
+    case speed5 = 60
 }

@@ -31,6 +31,14 @@ extension GameScene {
         view.showsNodeCount = true
         view.ignoresSiblingOrder = true
     }
+    
+    override func update(_ currentTime: TimeInterval) {
+        for node in children {
+            if let planeNode = node as? PlaneNode {
+                planeNode.updateFreeFlightIfNeeded()
+            }
+        }
+    }
 }
 
 // MARK: - Game mechanics

@@ -19,7 +19,14 @@ class PlaneNode: SKSpriteNode {
 
     // Public properties
     var delegate: PlaneNodeDelegate? = nil
+    var defaultSpeed: CGFloat = PlaneSpeed.speed3.rawValue
     
+    var cartesianCoordinates: CGPoint {
+        guard let scene = scene else { return CGPoint.zero }
+        guard let cartesianCoordinates = scene.view?.convert(position, from: scene) else { return CGPoint.zero }
+        return cartesianCoordinates
+    }
+
     // Public methods
     func setMotion(on bezierPath: UIBezierPath) {
         guard let scene = scene else { return }
@@ -39,8 +46,30 @@ class PlaneNode: SKSpriteNode {
         }
 
         removeAllActions()
-        let move = SKAction.follow(transformedBezierPath.cgPath, asOffset: false, orientToPath: true, speed: 20)
-        run(move)
+        inFreeFlight = false
+        let move = SKAction.follow(transformedBezierPath.cgPath, asOffset: false, orientToPath: true, speed: defaultSpeed)
+        run(move) { [weak self] in
+            guard let defaultSpeed = self?.defaultSpeed else { return }
+            let tangentAngle = transformedBezierPath.mx_tangentAngle(atFractionOfLength: 1.0)
+            let x = cos(tangentAngle) * defaultSpeed
+            let y = -sin(tangentAngle) * defaultSpeed
+            print("End angle: \(tangentAngle), x: \(x), y: \(y)")
+            
+            self?.physicsBody?.velocity = CGVector(dx: x, dy: y)
+            self?.inFreeFlight = true
+        }
+    }
+
+    func updateFreeFlightIfNeeded() {
+        print("Updating free flight if needed")
+        guard inFreeFlight else { return }
+        print("Updating free flight")
+        guard let xVelocity = physicsBody?.velocity.dx, let yVelocity = physicsBody?.velocity.dy else { return }
+        let magnitude: CGFloat = sqrt(xVelocity*xVelocity + yVelocity*yVelocity)
+        let angle: CGFloat = atan2(yVelocity, xVelocity)
+        if magnitude < defaultSpeed {
+            physicsBody?.velocity = CGVector(dx: CGFloat(cos(angle)*defaultSpeed), dy: CGFloat(sin(angle)*defaultSpeed))
+        }
     }
 
     // Initializer
@@ -49,6 +78,10 @@ class PlaneNode: SKSpriteNode {
         super.init(texture: texture, color: .clear, size: texture.size())
         size = CGSize(width: PlaneViewModel.width, height: PlaneViewModel.height)
         isUserInteractionEnabled = true
+        physicsBody = SKPhysicsBody(texture: texture, size: size)
+        physicsBody?.friction = 0.0
+        physicsBody?.restitution = 1.0
+        physicsBody?.mass = 0.1
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -57,6 +90,7 @@ class PlaneNode: SKSpriteNode {
 
     // Private properties
     private var touchLocationLast: CGPoint? = nil
+    private var inFreeFlight = false
 }
 
 // MARK: - Handle touch events

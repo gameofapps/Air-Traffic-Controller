@@ -53,6 +53,7 @@ extension GameBoardViewController {
 
         gameScene = GameScene()
         gameScene?.isUserInteractionEnabled = true
+        gameScene?.physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
         spriteKitView.presentScene(gameScene)
         spriteKitView.isUserInteractionEnabled = true
     }
@@ -64,8 +65,7 @@ extension GameBoardViewController: TracePathViewDelegate {
     func tracePathCompleted(bezierPath: UIBezierPath, planeViewModel: PlaneViewModel) {
         stopTracingPath(planeViewModel: planeViewModel)
         resetPlanePath(bezierPath: bezierPath, planeViewModel: planeViewModel)
-        drawPlanePath(bezierPath: bezierPath, planeViewModel: planeViewModel)
-//        orientToPath(bezierPath: bezierPath, planeView: planeView)
+        drawPlanePath(planeViewModel: planeViewModel)
     }
 
     func shouldTrace() -> Bool {
@@ -96,13 +96,19 @@ extension GameBoardViewController {
     }
 
     private func resetPlanePath(bezierPath: UIBezierPath, planeViewModel: PlaneViewModel) {
-        planeViewModel.planeNode.setMotion(on: bezierPath)
+        let currentPosition = planeViewModel.planeNode.cartesianCoordinates
+        let path = UIBezierPath()
+        path.move(to: currentPosition)
+        path.append(bezierPath)
+        planeViewModel.plane.path = path
+        planeViewModel.planeNode.setMotion(on: path)
     }
     
-    private func drawPlanePath(bezierPath: UIBezierPath, planeViewModel: PlaneViewModel) {
+    private func drawPlanePath(planeViewModel: PlaneViewModel) {
+        guard let path = planeViewModel.plane.path else { return }
         planeViewModel.pathShape.removeFromSuperlayer()
         planeViewModel.pathShape = CAShapeLayer()
-        planeViewModel.pathShape.path = bezierPath.cgPath
+        planeViewModel.pathShape.path = path.cgPath
         planeViewModel.pathShape.strokeColor = UIColor.darkGray.cgColor
         planeViewModel.pathShape.fillColor = UIColor.clear.cgColor
         planeViewModel.pathShape.lineWidth = 5.0
@@ -112,10 +118,9 @@ extension GameBoardViewController {
         let fadeOut = CABasicAnimation(keyPath: "opacity")
         fadeOut.fromValue = 1.0
         fadeOut.toValue = 0.0
-        fadeOut.duration = 1.0
+        fadeOut.duration = 2.0
         fadeOut.autoreverses = false
-//                fadeOut.beginTime = 1.0
-//                fadeOut.repeatCount = 1.0
+        fadeOut.beginTime = CACurrentMediaTime() + 1.0
         fadeOut.fillMode = .forwards
         fadeOut.isRemovedOnCompletion = false
         planeViewModel.pathShape.add(fadeOut, forKey: "fadeOutAnimation")
@@ -135,16 +140,16 @@ extension GameBoardViewController {
     }
     
     @objc func gameLoopTimerFired() {
-//        print("Timer fired!")
-        for (index, _) in viewModel.enumerated() {
-//            viewModel[index].plane.move()
-            guard let path = viewModel[index].plane.path else { return }
-            drawPlanePath(bezierPath: path, planeViewModel: viewModel[index])
-//            orientToPath(bezierPath: path, planeView: planeView)
-//            movePlaneOnPath(bezierPath: path, planeView: planeView)
-        }
-//
-//        checkForCollision()
+////        print("Timer fired!")
+//        for (index, _) in viewModel.enumerated() {
+////            viewModel[index].plane.move()
+//            guard let path = viewModel[index].plane.path else { return }
+//            drawPlanePath(planeViewModel: viewModel[index])
+////            orientToPath(bezierPath: path, planeView: planeView)
+////            movePlaneOnPath(bezierPath: path, planeView: planeView)
+//        }
+////
+////        checkForCollision()
     }
 }
 
@@ -155,6 +160,7 @@ extension GameBoardViewController {
         guard let gameScene = gameScene else { return }
         let planeViewModel = gameScene.spawnNewPlane()
         planeViewModel.delegate = self
+        planeViewModel.planeNode.defaultSpeed = planeViewModel.plane.velocity.rawValue
         viewModel.append(planeViewModel)
     }
 }
