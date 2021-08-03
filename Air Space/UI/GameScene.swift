@@ -42,6 +42,8 @@ extension GameScene {
         
         physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
         physicsWorld.contactDelegate = self
+        
+        spawnBeacons()
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -79,6 +81,37 @@ extension GameScene {
         let yCoord = CGFloat.random(in: minimumY ... maximumY)
         let position = CGPoint(x: xCoord, y: yCoord)
 //        print("xCoord: \(xCoord), yCoord: \(yCoord)")
+        return position
+    }
+    
+    private func spawnBeacons() {
+        let beaconAnimationAtlas = SKTextureAtlas(named: "beacon-sprite")
+        var beaconAnimationFrames = [SKTexture]()
+        let numImages = beaconAnimationAtlas.textureNames.count
+        for i in 0..<numImages {
+            let beaconTextureName = "beacon0\(i)"
+            let texture = beaconAnimationAtlas.textureNamed(beaconTextureName)
+            beaconAnimationFrames.append(texture)
+        }
+        let beacon = SKSpriteNode(texture: beaconAnimationFrames[0])
+        beacon.run(SKAction.repeatForever(SKAction.animate(with: beaconAnimationFrames,
+                                                           timePerFrame: 1.0,
+                                                           resize: false,
+                                                           restore: true)),
+                   withKey:"walkingInPlaceBear")
+//        beacon.position = getBeaconLeftPosition()
+        beacon.position = CGPoint(x: 0, y: 100)
+        addChild(beacon)
+    }
+
+    private func getBeaconLeftPosition() -> CGPoint {
+        let xCoord: CGFloat = 0.0 + 44 / 2.0
+        let minimumY: CGFloat = 0.0 + 44 / 2.0
+        let maximumY: CGFloat = size.height - 44 / 2.0
+        print("minimumY: \(minimumY), maximumY: \(maximumY)")
+        let yCoord = CGFloat.random(in: minimumY ... maximumY)
+        let position = CGPoint(x: xCoord, y: yCoord)
+        print("xCoord: \(xCoord), yCoord: \(yCoord)")
         return position
     }
 }

@@ -56,7 +56,7 @@ extension TracePathView {
         guard let planeViewModel = planeViewModel else { return }
         print("Touches ended")
         guard lineArray.count > 1 else { return }
-        
+
         let bezierPath = UIBezierPath()
         bezierPath.move(to: lineArray[0])
         for i in 1 ..< lineArray.count {

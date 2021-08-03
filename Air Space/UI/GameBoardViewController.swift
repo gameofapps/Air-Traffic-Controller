@@ -21,7 +21,8 @@ class GameBoardViewController: UIViewController {
     }
 
     // MARK: - Data model
-    private var viewModel = [PlaneViewModel]()
+    private var planes = [PlaneViewModel]()
+    private var beacons = [Beacon]()
     
     // MARK: - Private properties
     private var isTracingPath = false
@@ -120,11 +121,11 @@ extension GameBoardViewController {
         let planeViewModel = gameScene.spawnNewPlane()
         planeViewModel.delegate = self
         planeViewModel.planeNode.defaultSpeed = planeViewModel.plane.velocity.rawValue
-        viewModel.append(planeViewModel)
+        planes.append(planeViewModel)
     }
     
     private func viewModel(for planeNode: PlaneNode) -> PlaneViewModel? {
-        for planeViewModel in viewModel {
+        for planeViewModel in planes {
             if planeViewModel.planeNode == planeNode {
                 return planeViewModel
             }
