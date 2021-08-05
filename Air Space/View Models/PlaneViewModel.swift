@@ -15,11 +15,15 @@ protocol PlaneViewModelDelegate : AnyObject {
 
 class PlaneViewModel {
 
+    // Public properties
     var plane = Plane()
     var pathShape = CAShapeLayer()
     var planeNode: PlaneNode
     weak var delegate: PlaneViewModelDelegate? = nil
-    
+
+    static let width: CGFloat = 80.0
+    static let height: CGFloat = 80.0
+
     var isSelected: Bool {
         didSet {
             guard !isCollided else { return }
@@ -45,9 +49,6 @@ class PlaneViewModel {
             }
         }
     }
-
-    static let width: CGFloat = 80.0
-    static let height: CGFloat = 80.0
     
     init(planeNode: PlaneNode) {
         self.planeNode = planeNode

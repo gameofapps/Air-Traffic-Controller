@@ -23,6 +23,7 @@
 		2ABA191826A9496E000FC789 /* CGPath+ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA191726A9496E000FC789 /* CGPath+ForEach.swift */; };
 		2AC049B12696BAEF0005B6A2 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC049B02696BAEF0005B6A2 /* Beacon.swift */; };
 		2AEAD25426BB70E900663074 /* BeaconNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEAD25326BB70E900663074 /* BeaconNode.swift */; };
+		2AEAD25726BBA3CB00663074 /* BeaconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEAD25626BBA3CB00663074 /* BeaconViewModel.swift */; };
 		3042A81E269E01A80074F5BD /* PlaneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3042A81D269E01A80074F5BD /* PlaneViewModel.swift */; };
 		30FD8A1326A891E2004F7941 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD8A1226A891E2004F7941 /* GameScene.swift */; };
 		30FD8A1526A8947E004F7941 /* PlaneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD8A1426A8947E004F7941 /* PlaneNode.swift */; };
@@ -69,6 +70,7 @@
 		2ABA191726A9496E000FC789 /* CGPath+ForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPath+ForEach.swift"; sourceTree = "<group>"; };
 		2AC049B02696BAEF0005B6A2 /* Beacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
 		2AEAD25326BB70E900663074 /* BeaconNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconNode.swift; sourceTree = "<group>"; };
+		2AEAD25626BBA3CB00663074 /* BeaconViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconViewModel.swift; sourceTree = "<group>"; };
 		3042A81D269E01A80074F5BD /* PlaneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneViewModel.swift; sourceTree = "<group>"; };
 		30FD8A1226A891E2004F7941 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		30FD8A1426A8947E004F7941 /* PlaneNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneNode.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				2A8C74D526955AA700A2837F /* LaunchScreen.storyboard */,
 				2A8C74D326955AA700A2837F /* Assets.xcassets */,
 				2AC049B52696BB810005B6A2 /* Data Models */,
+				2AEAD25526BBA2E100663074 /* View Models */,
 				2AC049A92696BAD80005B6A2 /* UI */,
 				2A0608772696C29E007C0789 /* Utility */,
 				2A8C74D826955AA700A2837F /* Info.plist */,
@@ -170,9 +173,6 @@
 				2A8C74CE26955AA500A2837F /* WelcomeViewController.swift */,
 				2A8C74FF26957A1E00A2837F /* GameBoardViewController.swift */,
 				30FD8A1226A891E2004F7941 /* GameScene.swift */,
-				30FD8A1426A8947E004F7941 /* PlaneNode.swift */,
-				2AEAD25326BB70E900663074 /* BeaconNode.swift */,
-				3042A81D269E01A80074F5BD /* PlaneViewModel.swift */,
 				2A8C74FB2695606B00A2837F /* TracePathView.swift */,
 			);
 			path = UI;
@@ -185,6 +185,17 @@
 				2A0608752696BF7C007C0789 /* Plane.swift */,
 			);
 			path = "Data Models";
+			sourceTree = "<group>";
+		};
+		2AEAD25526BBA2E100663074 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				2AEAD25626BBA3CB00663074 /* BeaconViewModel.swift */,
+				3042A81D269E01A80074F5BD /* PlaneViewModel.swift */,
+				2AEAD25326BB70E900663074 /* BeaconNode.swift */,
+				30FD8A1426A8947E004F7941 /* PlaneNode.swift */,
+			);
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,6 +333,7 @@
 				2A8C74FE269570B400A2837F /* UIBezierPath+Superpowers.swift in Sources */,
 				2A8C74FC2695606B00A2837F /* TracePathView.swift in Sources */,
 				2A8C750026957A1E00A2837F /* GameBoardViewController.swift in Sources */,
+				2AEAD25726BBA3CB00663074 /* BeaconViewModel.swift in Sources */,
 				2ABA191826A9496E000FC789 /* CGPath+ForEach.swift in Sources */,
 				3042A81E269E01A80074F5BD /* PlaneViewModel.swift in Sources */,
 				30FD8A1526A8947E004F7941 /* PlaneNode.swift in Sources */,

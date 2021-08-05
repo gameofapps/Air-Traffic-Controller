@@ -10,9 +10,6 @@ import SpriteKit
 
 class BeaconNode: SKSpriteNode {
     
-    // Public properties
-    static let diameter: CGFloat = 44.0
-
     // Initializer
     init() {
         let beaconAnimationAtlas = SKTextureAtlas(named: "beacon-sprite")
@@ -26,7 +23,7 @@ class BeaconNode: SKSpriteNode {
         
         super.init(texture: beaconAnimationFrames[0], color: .clear, size: beaconAnimationFrames[0].size())
         
-        size = CGSize(width: BeaconNode.diameter, height: BeaconNode.diameter)
+        size = CGSize(width: BeaconViewModel.width, height: BeaconViewModel.height)
         self.run(SKAction.repeatForever(SKAction.animate(with: beaconAnimationFrames,
                                                            timePerFrame: 0.2,
                                                            resize: false,

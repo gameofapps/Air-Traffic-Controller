@@ -7,14 +7,12 @@
 
 import UIKit
 
-struct Beacon {
+struct Beacon : Equatable {
     
     let name: BeaconName
-    let position: CGPoint
 
-    init (name: BeaconName, position: CGPoint) {
+    init (name: BeaconName) {
         self.name = name
-        self.position = position
     }
 }
 

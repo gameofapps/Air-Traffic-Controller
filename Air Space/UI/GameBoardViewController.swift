@@ -47,7 +47,7 @@ extension GameBoardViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        gameScene?.spawnBeacons()
+        gameScene?.setupBoard()
     }
 }
 
@@ -127,15 +127,6 @@ extension GameBoardViewController {
         planeViewModel.planeNode.defaultSpeed = planeViewModel.plane.velocity.rawValue
         planes.append(planeViewModel)
     }
-    
-    private func viewModel(for planeNode: PlaneNode) -> PlaneViewModel? {
-        for planeViewModel in planes {
-            if planeViewModel.planeNode == planeNode {
-                return planeViewModel
-            }
-        }
-        return nil
-    }
 }
 
 // MARK: - PlaneNodeDelegate methods
@@ -151,11 +142,18 @@ extension GameBoardViewController : GameSceneDelegate {
     
     func didCollide(gameScene: GameScene, planeA: PlaneNode, planeB: PlaneNode) {
         gameScene.view?.isPaused = true
-        if let firstPlaneViewModel = viewModel(for: planeA) {
+        if let firstPlaneViewModel = gameScene.viewModel(for: planeA) {
             firstPlaneViewModel.isCollided = true
         }
-        if let secondPlaneViewModel = viewModel(for: planeB) {
+        if let secondPlaneViewModel = gameScene.viewModel(for: planeB) {
             secondPlaneViewModel.isCollided = true
+        }
+    }
+    
+    func didCollide(gameScene: GameScene, plane: PlaneNode, beacon: BeaconNode) {
+        gameScene.view?.isPaused = true
+        if let planeViewModel = gameScene.viewModel(for: plane), let beaconViewModel = gameScene.viewModel(for: beacon) {
+            //
         }
     }
 }
