@@ -24,7 +24,7 @@ class GameScene: SKScene {
         guard let originBeacon = getRandomBeacon(), let destinationBeacon = getRandomBeacon() else { return nil }
 
         let planeNode = PlaneNode()
-        planeNode.position = getRandomPlaneStartPosition()
+        planeNode.position = originBeacon.spawnPosition
         addChild(planeNode)
 
         let planeViewModel = PlaneViewModel(planeNode: planeNode, origin: originBeacon.beacon.name, destination: destinationBeacon.beacon.name)
@@ -36,13 +36,15 @@ class GameScene: SKScene {
         let leftBeaconNode = BeaconNode()
         leftBeaconNode.position = getBeaconLeftPosition()
         addChild(leftBeaconNode)
-        let leftBeaconViewModel = BeaconViewModel(beaconNode: leftBeaconNode, name: .beaconA)
+        var spawnPosition = CGPoint(x: leftBeaconNode.position.x + BeaconViewModel.width/2.0 + PlaneViewModel.width/2.0, y: leftBeaconNode.position.y)
+        let leftBeaconViewModel = BeaconViewModel(beaconNode: leftBeaconNode, name: .beaconA, spawnPosition: spawnPosition)
         beacons.append(leftBeaconViewModel)
 
         let rightBeaconNode = BeaconNode()
         rightBeaconNode.position = getBeaconRightPosition()
         addChild(rightBeaconNode)
-        let rightBeaconViewModel = BeaconViewModel(beaconNode: rightBeaconNode, name: .beaconB)
+        spawnPosition = CGPoint(x: rightBeaconNode.position.x - BeaconViewModel.width/2.0 - PlaneViewModel.width/2.0, y: rightBeaconNode.position.y)
+        let rightBeaconViewModel = BeaconViewModel(beaconNode: rightBeaconNode, name: .beaconB, spawnPosition: spawnPosition)
         beacons.append(rightBeaconViewModel)
     }
     
@@ -129,20 +131,6 @@ extension GameScene : SKPhysicsContactDelegate {
 // MARK: - Game mechanics
 extension GameScene {
     
-    private func getRandomPlaneStartPosition() -> CGPoint {
-        let minimumX = 0.0 + PlaneViewModel.width / 2.0
-        let maximumX = size.width - PlaneViewModel.width / 2.0
-//        print("minimumX: \(minimumX), maximumX: \(maximumX)")
-        let xCoord = CGFloat.random(in: minimumX ... maximumX)
-        let minimumY = PlaneViewModel.height / 2.0
-        let maximumY = size.height - 96.0 - PlaneViewModel.height / 2.0
-//        print("minimumY: \(minimumY), maximumY: \(maximumY)")
-        let yCoord = CGFloat.random(in: minimumY ... maximumY)
-        let position = CGPoint(x: xCoord, y: yCoord)
-//        print("xCoord: \(xCoord), yCoord: \(yCoord)")
-        return position
-    }
-
     private func getRandomBeacon() -> BeaconViewModel? {
         guard beacons.count > 0 else { return nil }
         let randomIndex = Int.random(in: 0..<beacons.count)
