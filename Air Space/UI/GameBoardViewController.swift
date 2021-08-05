@@ -45,6 +45,10 @@ extension GameBoardViewController {
         spriteKitView.presentScene(gameScene)
         spriteKitView.isUserInteractionEnabled = true
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        gameScene?.spawnBeacons()
+    }
 }
 
 // MARK: - TracePathViewDelegate methods
