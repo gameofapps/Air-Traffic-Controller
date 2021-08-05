@@ -28,13 +28,18 @@ class PlaneNode: SKSpriteNode {
     }
 
     // Public methods
-    func setMotion(on bezierPath: UIBezierPath) {
+    func setMotion(on bezierPath: UIBezierPath, transform: Bool) {
         guard let scene = scene else { return }
         let points = bezierPath.points()
         var transformedPoints = [CGPoint]()
         for point in points {
-            if let transformedPoint = scene.view?.convert(point, to: scene) {
-                transformedPoints.append(transformedPoint)
+            if transform {
+                if let transformedPoint = scene.view?.convert(point, to: scene) {
+                    transformedPoints.append(transformedPoint)
+                }
+            }
+            else {
+                transformedPoints.append(point)
             }
         }
 

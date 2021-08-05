@@ -29,6 +29,9 @@ class GameScene: SKScene {
 
         let planeViewModel = PlaneViewModel(planeNode: planeNode, origin: originBeacon.beacon.name, destination: destinationBeacon.beacon.name)
         planes.append(planeViewModel)
+
+        planeNode.setMotion(on: initialPath(for: originBeacon), transform: false)
+
         return planeViewModel
     }
     
@@ -36,15 +39,13 @@ class GameScene: SKScene {
         let leftBeaconNode = BeaconNode()
         leftBeaconNode.position = getBeaconLeftPosition()
         addChild(leftBeaconNode)
-        var spawnPosition = CGPoint(x: leftBeaconNode.position.x + BeaconViewModel.width/2.0 + PlaneViewModel.width/2.0, y: leftBeaconNode.position.y)
-        let leftBeaconViewModel = BeaconViewModel(beaconNode: leftBeaconNode, name: .beaconA, spawnPosition: spawnPosition)
+        let leftBeaconViewModel = BeaconViewModel(beaconNode: leftBeaconNode, name: .beaconA, spawnPosition: spawnPosition(for: leftBeaconNode, name: .beaconA))
         beacons.append(leftBeaconViewModel)
 
         let rightBeaconNode = BeaconNode()
         rightBeaconNode.position = getBeaconRightPosition()
         addChild(rightBeaconNode)
-        spawnPosition = CGPoint(x: rightBeaconNode.position.x - BeaconViewModel.width/2.0 - PlaneViewModel.width/2.0, y: rightBeaconNode.position.y)
-        let rightBeaconViewModel = BeaconViewModel(beaconNode: rightBeaconNode, name: .beaconB, spawnPosition: spawnPosition)
+        let rightBeaconViewModel = BeaconViewModel(beaconNode: rightBeaconNode, name: .beaconB, spawnPosition: spawnPosition(for: rightBeaconNode, name: .beaconB))
         beacons.append(rightBeaconViewModel)
     }
     
@@ -157,5 +158,36 @@ extension GameScene {
         let position = CGPoint(x: xCoord, y: yCoord)
         print("xCoord: \(xCoord), yCoord: \(yCoord)")
         return position
+    }
+
+    private func spawnPosition(for beaconNode: BeaconNode, name: BeaconName) -> CGPoint {
+        switch name {
+        case .beaconA:
+            return CGPoint(x: beaconNode.position.x + BeaconViewModel.width / 2.0 + PlaneViewModel.width / 2.0, y: beaconNode.position.y)
+        case .beaconB:
+            return CGPoint(x: beaconNode.position.x - BeaconViewModel.width / 2.0 - PlaneViewModel.width / 2.0, y: beaconNode.position.y)
+        default:
+            return CGPoint.zero
+        }
+    }
+
+    private func initialPath(for beacon: BeaconViewModel) -> UIBezierPath {
+        let bezierPath = UIBezierPath()
+        bezierPath.move(to: beacon.spawnPosition)
+        bezierPath.addLine(to: CGPoint(x: beacon.spawnPosition.x + deltaVector(for: beacon.beacon).x, y: beacon.spawnPosition.y + deltaVector(for: beacon.beacon).y))
+        return bezierPath
+    }
+
+    private func deltaVector(for beacon: Beacon) -> (x: CGFloat, y: CGFloat) {
+        switch beacon.name {
+        case .beaconA:
+            return (100.0, 0.0)
+        case .beaconB:
+            return (-100.0, 0.0)
+        case .beaconC:
+            return (0.0, 100.0)
+        default:
+            return (0.0, 0.0)
+        }
     }
 }

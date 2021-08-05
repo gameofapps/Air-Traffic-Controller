@@ -91,7 +91,7 @@ extension GameBoardViewController {
         path.move(to: currentPosition)
         path.append(bezierPath)
         planeViewModel.plane.path = path
-        planeViewModel.planeNode.setMotion(on: path)
+        planeViewModel.planeNode.setMotion(on: path, transform: true)
     }
     
     private func drawPlanePath(planeViewModel: PlaneViewModel) {
