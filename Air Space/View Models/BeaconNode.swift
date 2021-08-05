@@ -33,7 +33,7 @@ class BeaconNode: SKSpriteNode {
         physicsBody = SKPhysicsBody(texture: beaconAnimationFrames[0], size: size)
         physicsBody?.friction = 0.0
         physicsBody?.restitution = 1.0
-        physicsBody?.mass = 0.1
+        physicsBody?.mass = 100000
         physicsBody?.contactTestBitMask = physicsBody?.collisionBitMask ?? 0xFFFFFFFF
     }
 

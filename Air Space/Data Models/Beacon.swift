@@ -17,9 +17,9 @@ struct Beacon : Equatable {
 }
 
 enum BeaconName {
-    case beaconA
-    case beaconB
-    case beaconC
-    case beaconD
-    case beaconE
+    case beaconAirport
+    case beaconLeft
+    case beaconRight
+    case beaconTop
+    case beaconBottom
 }

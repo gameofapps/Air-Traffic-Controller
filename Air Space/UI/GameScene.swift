@@ -37,16 +37,22 @@ class GameScene: SKScene {
     
     func setupBoard() {
         let leftBeaconNode = BeaconNode()
-        leftBeaconNode.position = getBeaconLeftPosition()
+        leftBeaconNode.position = getBeaconPosition(for: .beaconLeft)
         addChild(leftBeaconNode)
-        let leftBeaconViewModel = BeaconViewModel(beaconNode: leftBeaconNode, name: .beaconA, spawnPosition: spawnPosition(for: leftBeaconNode, name: .beaconA))
+        let leftBeaconViewModel = BeaconViewModel(beaconNode: leftBeaconNode, name: .beaconLeft, spawnPosition: spawnPosition(for: leftBeaconNode, name: .beaconLeft))
         beacons.append(leftBeaconViewModel)
 
         let rightBeaconNode = BeaconNode()
-        rightBeaconNode.position = getBeaconRightPosition()
+        rightBeaconNode.position = getBeaconPosition(for: .beaconRight)
         addChild(rightBeaconNode)
-        let rightBeaconViewModel = BeaconViewModel(beaconNode: rightBeaconNode, name: .beaconB, spawnPosition: spawnPosition(for: rightBeaconNode, name: .beaconB))
+        let rightBeaconViewModel = BeaconViewModel(beaconNode: rightBeaconNode, name: .beaconRight, spawnPosition: spawnPosition(for: rightBeaconNode, name: .beaconRight))
         beacons.append(rightBeaconViewModel)
+
+        let airportBeaconNode = BeaconNode()
+        airportBeaconNode.position = getBeaconPosition(for: .beaconAirport)
+        addChild(airportBeaconNode)
+        let airportBeaconViewModel = BeaconViewModel(beaconNode: airportBeaconNode, name: .beaconAirport, spawnPosition: spawnPosition(for: airportBeaconNode, name: .beaconAirport))
+        beacons.append(airportBeaconViewModel)
     }
     
     func remove(plane: PlaneViewModel) {
@@ -85,6 +91,7 @@ class GameScene: SKScene {
     // Private properties
     private var planes = [PlaneViewModel]()
     private var beacons = [BeaconViewModel]()
+    private let navigationBarHeight: CGFloat = 96.0
 }
 
 // MARK: - Overridden SKScene properties / methods
@@ -138,23 +145,42 @@ extension GameScene {
         return beacons[randomIndex]
     }
 
-    private func getBeaconLeftPosition() -> CGPoint {
-        let xCoord: CGFloat = BeaconViewModel.width / 10.0
-        let minimumY: CGFloat = BeaconViewModel.height / 2.0
-        let maximumY: CGFloat = size.height - 96.0 - BeaconViewModel.height / 2.0
-        print("minimumY: \(minimumY), maximumY: \(maximumY)")
-        let yCoord = CGFloat.random(in: minimumY ... maximumY)
-        let position = CGPoint(x: xCoord, y: yCoord)
-        print("xCoord: \(xCoord), yCoord: \(yCoord)")
-        return position
-    }
-
-    private func getBeaconRightPosition() -> CGPoint {
-        let xCoord: CGFloat = size.width - BeaconViewModel.width / 10.0
-        let minimumY: CGFloat = BeaconViewModel.height / 2.0
-        let maximumY: CGFloat = size.height - 96.0 - BeaconViewModel.height / 2.0
-        print("minimumY: \(minimumY), maximumY: \(maximumY)")
-        let yCoord = CGFloat.random(in: minimumY ... maximumY)
+    private func getBeaconPosition(for beaconName: BeaconName) -> CGPoint {
+        let minimumX: CGFloat
+        let maximumX: CGFloat
+        let minimumY: CGFloat
+        let maximumY: CGFloat
+        
+        switch beaconName {
+        case .beaconAirport:  // Random location in the bottom middle of the game board
+            minimumX = size.width * 0.2
+            maximumX = size.width * 0.8
+            minimumY = (size.height - navigationBarHeight) * 0.2
+            maximumY = (size.height - navigationBarHeight) * 0.5
+        case .beaconLeft:     // Random position on the left edge of the game board
+            minimumX = BeaconViewModel.width / 10.0
+            maximumX = minimumX
+            minimumY = BeaconViewModel.height / 2.0
+            maximumY = size.height - navigationBarHeight - BeaconViewModel.height / 2.0
+        case .beaconRight:    // Random position on the right edge of the game board
+            minimumX = size.width - BeaconViewModel.width / 10.0
+            maximumX = minimumX
+            minimumY = BeaconViewModel.height / 2.0
+            maximumY = size.height - navigationBarHeight - BeaconViewModel.height / 2.0
+        case .beaconTop:      // Random position on the top edge of the game board
+            minimumX = BeaconViewModel.width / 2.0
+            maximumX = size.width - BeaconViewModel.width / 2.0
+            minimumY = size.height - navigationBarHeight - BeaconViewModel.height / 2.0
+            maximumY = minimumY
+        case .beaconBottom:   // Random position on the bottom edge of the game board
+            minimumX = BeaconViewModel.width / 2.0
+            maximumX = size.width - BeaconViewModel.width / 2.0
+            minimumY = BeaconViewModel.height / 10.0
+            maximumY = minimumY
+        }
+        
+        let xCoord = minimumX == maximumX ? minimumX : CGFloat.random(in: minimumX ... maximumX)
+        let yCoord = minimumY == maximumY ? minimumY : CGFloat.random(in: minimumY ... maximumY)
         let position = CGPoint(x: xCoord, y: yCoord)
         print("xCoord: \(xCoord), yCoord: \(yCoord)")
         return position
@@ -162,32 +188,38 @@ extension GameScene {
 
     private func spawnPosition(for beaconNode: BeaconNode, name: BeaconName) -> CGPoint {
         switch name {
-        case .beaconA:
+        case .beaconAirport:  // To the top of the beacon, on the runway
+            return CGPoint(x: beaconNode.position.x, y: beaconNode.position.y + 100.0)
+        case .beaconLeft:  // To the right of the beacon
             return CGPoint(x: beaconNode.position.x + BeaconViewModel.width / 2.0 + PlaneViewModel.width / 2.0, y: beaconNode.position.y)
-        case .beaconB:
+        case .beaconRight:  // To the left of the beacon
             return CGPoint(x: beaconNode.position.x - BeaconViewModel.width / 2.0 - PlaneViewModel.width / 2.0, y: beaconNode.position.y)
-        default:
-            return CGPoint.zero
+        case .beaconTop:  // To the bottom of the beacon
+            return CGPoint(x: beaconNode.position.x, y: beaconNode.position.y - BeaconViewModel.height / 2.0 - PlaneViewModel.height / 2.0)
+        case .beaconBottom:  // To the top of the beacon
+            return CGPoint(x: beaconNode.position.x, y: beaconNode.position.y + BeaconViewModel.height / 2.0 + PlaneViewModel.height / 2.0)
         }
     }
 
     private func initialPath(for beacon: BeaconViewModel) -> UIBezierPath {
         let bezierPath = UIBezierPath()
         bezierPath.move(to: beacon.spawnPosition)
-        bezierPath.addLine(to: CGPoint(x: beacon.spawnPosition.x + deltaVector(for: beacon.beacon).x, y: beacon.spawnPosition.y + deltaVector(for: beacon.beacon).y))
+        bezierPath.addLine(to: CGPoint(x: beacon.spawnPosition.x + initialPathDeltaVector(for: beacon.beacon).x, y: beacon.spawnPosition.y + initialPathDeltaVector(for: beacon.beacon).y))
         return bezierPath
     }
 
-    private func deltaVector(for beacon: Beacon) -> (x: CGFloat, y: CGFloat) {
+    private func initialPathDeltaVector(for beacon: Beacon) -> (x: CGFloat, y: CGFloat) {
         switch beacon.name {
-        case .beaconA:
-            return (100.0, 0.0)
-        case .beaconB:
-            return (-100.0, 0.0)
-        case .beaconC:
-            return (0.0, 100.0)
-        default:
-            return (0.0, 0.0)
+        case .beaconAirport:
+            return (0.0, 100.0)   // Move up
+        case .beaconLeft:
+            return (100.0, 0.0)   // Move right
+        case .beaconRight:
+            return (-100.0, 0.0)  // Move left
+        case .beaconTop:
+            return (0.0, -100.0)  // Move down
+        case .beaconBottom:
+            return (0.0, 100.0)   // Move up
         }
     }
 }
