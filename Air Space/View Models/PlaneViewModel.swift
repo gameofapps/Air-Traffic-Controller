@@ -19,6 +19,8 @@ class PlaneViewModel {
     var plane = Plane()
     var pathShape = CAShapeLayer()
     var planeNode: PlaneNode
+    var origin: BeaconName
+    var destination: BeaconName
     weak var delegate: PlaneViewModelDelegate? = nil
 
     static let width: CGFloat = 80.0
@@ -50,8 +52,11 @@ class PlaneViewModel {
         }
     }
     
-    init(planeNode: PlaneNode) {
+    init(planeNode: PlaneNode, origin: BeaconName, destination: BeaconName) {
         self.planeNode = planeNode
+        self.origin = origin
+        self.destination = destination
+        print("Plane origin: \(origin), destination: \(destination)")
         isSelected = false
         isCollided = false
         self.planeNode.delegate = self

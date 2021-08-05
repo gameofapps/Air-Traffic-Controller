@@ -117,18 +117,6 @@ extension GameBoardViewController {
     }
 }
 
-// MARK: - Game mechanics methods
-extension GameBoardViewController {
-
-    private func spawnNewPlane() {
-        guard let gameScene = gameScene else { return }
-        let planeViewModel = gameScene.spawnNewPlane()
-        planeViewModel.delegate = self
-        planeViewModel.planeNode.defaultSpeed = planeViewModel.plane.velocity.rawValue
-        planes.append(planeViewModel)
-    }
-}
-
 // MARK: - PlaneNodeDelegate methods
 extension GameBoardViewController : PlaneViewModelDelegate {
     
@@ -151,9 +139,26 @@ extension GameBoardViewController : GameSceneDelegate {
     }
     
     func didCollide(gameScene: GameScene, plane: PlaneNode, beacon: BeaconNode) {
-        gameScene.view?.isPaused = true
         if let planeViewModel = gameScene.viewModel(for: plane), let beaconViewModel = gameScene.viewModel(for: beacon) {
-            //
+            if planeViewModel.destination == beaconViewModel.beacon.name {
+                gameScene.remove(plane: planeViewModel)
+            }
+            else {
+                gameScene.view?.isPaused = true
+                planeViewModel.isCollided = true
+            }
         }
+    }
+}
+
+// MARK: - Game mechanics methods
+extension GameBoardViewController {
+
+    private func spawnNewPlane() {
+        guard let gameScene = gameScene else { return }
+        guard let planeViewModel = gameScene.spawnNewPlane() else { return }
+        planeViewModel.delegate = self
+        planeViewModel.planeNode.defaultSpeed = planeViewModel.plane.velocity.rawValue
+        planes.append(planeViewModel)
     }
 }
