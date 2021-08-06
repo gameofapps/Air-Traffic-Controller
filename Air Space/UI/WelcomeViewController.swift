@@ -11,18 +11,22 @@ class WelcomeViewController: UIViewController {
 
     // MARK: - IBActions
     @IBAction func easyButtonTapped(_ sender: UIButton) {
+        defaultSpeed = .speed1
         performSegue(withIdentifier: segueStartGame, sender: nil)
     }
 
     @IBAction func mediumButtonTapped(_ sender: UIButton) {
+        defaultSpeed = .speed3
         performSegue(withIdentifier: segueStartGame, sender: nil)
     }
 
     @IBAction func difficultButtonTapped(_ sender: UIButton) {
+        defaultSpeed = .speed5
         performSegue(withIdentifier: segueStartGame, sender: nil)
     }
 
     // MARK: - Private constants
+    private var defaultSpeed: PlaneSpeed = .speed3
     private let segueStartGame = "segueStartGame"
 }
 
@@ -35,6 +39,8 @@ extension WelcomeViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //
+        if let vc = segue.destination as? GameBoardViewController {
+            vc.defaultSpeed = defaultSpeed
+        }
     }
 }

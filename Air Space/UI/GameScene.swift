@@ -18,23 +18,15 @@ class GameScene: SKScene {
 
     // Public properties
     weak var gameSceneDelegate: GameSceneDelegate? = nil
+    
+    var score: Int = 0 {
+        didSet {
+            guard let scoreBoard = scoreBoard else { return }
+            scoreBoard.text = "Score: \(score)"
+        }
+    }
 
     // Public methods
-    func spawnNewPlane() -> PlaneViewModel? {
-        guard let originBeacon = getRandomBeacon(), let destinationBeacon = getRandomBeacon() else { return nil }
-
-        let planeNode = PlaneNode(destination: destinationBeacon.beacon.name)
-        planeNode.position = originBeacon.spawnPosition
-        addChild(planeNode)
-
-        let planeViewModel = PlaneViewModel(planeNode: planeNode, origin: originBeacon.beacon.name, destination: destinationBeacon.beacon.name)
-        planes.append(planeViewModel)
-
-        planeNode.setMotion(on: initialPath(for: originBeacon), transform: false)
-
-        return planeViewModel
-    }
-    
     func setupBoard() {
         let leftBeaconNode = BeaconNode(beaconName: .beaconLeft)
         leftBeaconNode.position = getBeaconPosition(for: .beaconLeft)
@@ -53,6 +45,27 @@ class GameScene: SKScene {
         addChild(airportBeaconNode)
         let airportBeaconViewModel = BeaconViewModel(beaconNode: airportBeaconNode, name: .beaconAirport, spawnPosition: spawnPosition(for: airportBeaconNode, name: .beaconAirport))
         beacons.append(airportBeaconViewModel)
+
+        scoreBoard = SKLabelNode(fontNamed: "Chalkduster")
+        addChild(scoreBoard!)
+        scoreBoard?.position = CGPoint(x: size.width / 2.0, y: size.height - navigationBarHeight - 12.0)
+        scoreBoard?.zPosition = -1.0
+        score = 0
+    }
+    
+    func spawnNewPlane(defaultSpeed: PlaneSpeed) -> PlaneViewModel? {
+        guard let originBeacon = getRandomBeacon(), let destinationBeacon = getRandomBeacon() else { return nil }
+
+        let planeNode = PlaneNode(destination: destinationBeacon.beacon.name, defaultSpeed: defaultSpeed)
+        planeNode.position = originBeacon.spawnPosition
+        addChild(planeNode)
+
+        let planeViewModel = PlaneViewModel(planeNode: planeNode, origin: originBeacon.beacon.name, destination: destinationBeacon.beacon.name)
+        planes.append(planeViewModel)
+
+        planeNode.setMotion(on: initialPath(for: originBeacon), transform: false)
+
+        return planeViewModel
     }
     
     func remove(plane: PlaneViewModel) {
@@ -91,7 +104,8 @@ class GameScene: SKScene {
     // Private properties
     private var planes = [PlaneViewModel]()
     private var beacons = [BeaconViewModel]()
-    private let navigationBarHeight: CGFloat = 96.0
+    private var scoreBoard: SKLabelNode? = nil
+    private let navigationBarHeight: CGFloat = 112.0
 }
 
 // MARK: - Overridden SKScene properties / methods
@@ -211,15 +225,15 @@ extension GameScene {
     private func initialPathDeltaVector(for beacon: Beacon) -> (x: CGFloat, y: CGFloat) {
         switch beacon.name {
         case .beaconAirport:
-            return (0.0, 100.0)   // Move up
+            return (0.0, 300.0)   // Move up
         case .beaconLeft:
-            return (100.0, 0.0)   // Move right
+            return (300.0, 0.0)   // Move right
         case .beaconRight:
-            return (-100.0, 0.0)  // Move left
+            return (-300.0, 0.0)  // Move left
         case .beaconTop:
-            return (0.0, -100.0)  // Move down
+            return (0.0, -300.0)  // Move down
         case .beaconBottom:
-            return (0.0, 100.0)   // Move up
+            return (0.0, 300.0)   // Move up
         }
     }
 }

@@ -20,6 +20,9 @@ class GameBoardViewController: UIViewController {
         spawnNewPlane()
     }
 
+    // MARK: - Public properties
+    var defaultSpeed: PlaneSpeed = .speed3
+
     // MARK: - Data model
     private var planes = [PlaneViewModel]()
     private var beacons = [Beacon]()
@@ -142,7 +145,7 @@ extension GameBoardViewController : GameSceneDelegate {
         if let planeViewModel = gameScene.viewModel(for: plane), let beaconViewModel = gameScene.viewModel(for: beacon) {
             if planeViewModel.destination == beaconViewModel.beacon.name {
                 gameScene.remove(plane: planeViewModel)
-                // Add a point
+                gameScene.score += 1
             }
             else {
                 gameScene.view?.isPaused = true
@@ -157,9 +160,8 @@ extension GameBoardViewController {
 
     private func spawnNewPlane() {
         guard let gameScene = gameScene else { return }
-        guard let planeViewModel = gameScene.spawnNewPlane() else { return }
+        guard let planeViewModel = gameScene.spawnNewPlane(defaultSpeed: defaultSpeed) else { return }
         planeViewModel.delegate = self
-        planeViewModel.planeNode.defaultSpeed = planeViewModel.plane.velocity.rawValue
         planes.append(planeViewModel)
     }
 }

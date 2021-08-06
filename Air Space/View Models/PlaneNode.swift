@@ -102,9 +102,10 @@ class PlaneNode: SKSpriteNode {
     }
 
     // Initializer
-    init(destination: BeaconName) {
+    init(destination: BeaconName, defaultSpeed: PlaneSpeed) {
         let texture = SKTexture(imageNamed: PlaneNode.imageName(for: destination))
         self.destination = destination
+        self.defaultSpeed = defaultSpeed.rawValue
         isCollided = false
         isSelected = false
         super.init(texture: texture, color: .clear, size: texture.size())
