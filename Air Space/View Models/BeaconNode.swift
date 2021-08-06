@@ -41,7 +41,6 @@ class BeaconNode: SKSpriteNode {
         label.zPosition = 1.0
         label.horizontalAlignmentMode = .center
         label.verticalAlignmentMode = .center
-//        label.position = labelPosition(for: beaconName)
         addChild(label)
     }
 

@@ -142,6 +142,7 @@ extension GameBoardViewController : GameSceneDelegate {
         if let planeViewModel = gameScene.viewModel(for: plane), let beaconViewModel = gameScene.viewModel(for: beacon) {
             if planeViewModel.destination == beaconViewModel.beacon.name {
                 gameScene.remove(plane: planeViewModel)
+                // Add a point
             }
             else {
                 gameScene.view?.isPaused = true
