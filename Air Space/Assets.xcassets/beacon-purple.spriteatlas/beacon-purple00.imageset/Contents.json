@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "BeaconPurple00.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "BeaconPurple00@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "BeaconPurple00@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "BeaconPurple00.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {

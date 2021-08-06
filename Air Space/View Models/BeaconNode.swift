@@ -26,7 +26,7 @@ class BeaconNode: SKSpriteNode {
         
         size = CGSize(width: BeaconViewModel.width, height: BeaconViewModel.height)
         self.run(SKAction.repeatForever(SKAction.animate(with: beaconAnimationFrames,
-                                                           timePerFrame: 0.2,
+                                                           timePerFrame: 0.4,
                                                            resize: false,
                                                            restore: true)),
                    withKey:"\(baseName)SignalAnimation")

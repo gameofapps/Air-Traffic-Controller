@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "BeaconCyan02.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "BeaconCyan02@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "BeaconCyan02@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "BeaconCyan02.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
