@@ -11,7 +11,7 @@ import SpriteKit
 class BeaconNode: SKSpriteNode {
     
     // Initializer
-    init() {
+    init(beaconName: BeaconName) {
         let beaconAnimationAtlas = SKTextureAtlas(named: "beacon-sprite")
         var beaconAnimationFrames = [SKTexture]()
         let numImages = beaconAnimationAtlas.textureNames.count
@@ -35,9 +35,29 @@ class BeaconNode: SKSpriteNode {
         physicsBody?.restitution = 1.0
         physicsBody?.mass = 100000
         physicsBody?.contactTestBitMask = physicsBody?.collisionBitMask ?? 0xFFFFFFFF
+        
+        let label = SKLabelNode(fontNamed: "Chalkduster")
+        label.text = beaconName.rawValue
+        label.zPosition = 1.0
+        label.horizontalAlignmentMode = .center
+        label.verticalAlignmentMode = .center
+//        label.position = labelPosition(for: beaconName)
+        addChild(label)
     }
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+//extension BeaconNode {
+//
+//    private func labelPosition(for beaconName: BeaconName) -> CGPoint {
+//        switch beaconName {
+//        case .beaconAirport, .beaconLeft, .beaconTop:
+//            return CGPoint(x: Beacon, y: <#T##CGFloat#>)
+//        case .beaconRight:
+//        case .beaconBottom:
+//        }
+//    }
+//}

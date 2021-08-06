@@ -36,19 +36,19 @@ class GameScene: SKScene {
     }
     
     func setupBoard() {
-        let leftBeaconNode = BeaconNode()
+        let leftBeaconNode = BeaconNode(beaconName: .beaconLeft)
         leftBeaconNode.position = getBeaconPosition(for: .beaconLeft)
         addChild(leftBeaconNode)
         let leftBeaconViewModel = BeaconViewModel(beaconNode: leftBeaconNode, name: .beaconLeft, spawnPosition: spawnPosition(for: leftBeaconNode, name: .beaconLeft))
         beacons.append(leftBeaconViewModel)
 
-        let rightBeaconNode = BeaconNode()
+        let rightBeaconNode = BeaconNode(beaconName: .beaconRight)
         rightBeaconNode.position = getBeaconPosition(for: .beaconRight)
         addChild(rightBeaconNode)
         let rightBeaconViewModel = BeaconViewModel(beaconNode: rightBeaconNode, name: .beaconRight, spawnPosition: spawnPosition(for: rightBeaconNode, name: .beaconRight))
         beacons.append(rightBeaconViewModel)
 
-        let airportBeaconNode = BeaconNode()
+        let airportBeaconNode = BeaconNode(beaconName: .beaconAirport)
         airportBeaconNode.position = getBeaconPosition(for: .beaconAirport)
         addChild(airportBeaconNode)
         let airportBeaconViewModel = BeaconViewModel(beaconNode: airportBeaconNode, name: .beaconAirport, spawnPosition: spawnPosition(for: airportBeaconNode, name: .beaconAirport))
@@ -158,24 +158,24 @@ extension GameScene {
             minimumY = (size.height - navigationBarHeight) * 0.2
             maximumY = (size.height - navigationBarHeight) * 0.5
         case .beaconLeft:     // Random position on the left edge of the game board
-            minimumX = BeaconViewModel.width / 10.0
+            minimumX = BeaconViewModel.width / 5.0
             maximumX = minimumX
             minimumY = BeaconViewModel.height / 2.0
             maximumY = size.height - navigationBarHeight - BeaconViewModel.height / 2.0
         case .beaconRight:    // Random position on the right edge of the game board
-            minimumX = size.width - BeaconViewModel.width / 10.0
+            minimumX = size.width - BeaconViewModel.width / 5.0
             maximumX = minimumX
             minimumY = BeaconViewModel.height / 2.0
             maximumY = size.height - navigationBarHeight - BeaconViewModel.height / 2.0
         case .beaconTop:      // Random position on the top edge of the game board
             minimumX = BeaconViewModel.width / 2.0
             maximumX = size.width - BeaconViewModel.width / 2.0
-            minimumY = size.height - navigationBarHeight - BeaconViewModel.height / 2.0
+            minimumY = size.height - navigationBarHeight - BeaconViewModel.height / 5.0
             maximumY = minimumY
         case .beaconBottom:   // Random position on the bottom edge of the game board
             minimumX = BeaconViewModel.width / 2.0
             maximumX = size.width - BeaconViewModel.width / 2.0
-            minimumY = BeaconViewModel.height / 10.0
+            minimumY = BeaconViewModel.height / 5.0
             maximumY = minimumY
         }
         
