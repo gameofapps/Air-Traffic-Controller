@@ -12,11 +12,12 @@ class BeaconNode: SKSpriteNode {
     
     // Initializer
     init(beaconName: BeaconName) {
-        let beaconAnimationAtlas = SKTextureAtlas(named: "beacon-sprite")
+        let baseName = BeaconNode.atlasName(for: beaconName)
+        let beaconAnimationAtlas = SKTextureAtlas(named: baseName)
         var beaconAnimationFrames = [SKTexture]()
         let numImages = beaconAnimationAtlas.textureNames.count
         for i in 0..<numImages {
-            let beaconTextureName = "beacon0\(i)"
+            let beaconTextureName = "\(baseName)0\(i)"
             let texture = beaconAnimationAtlas.textureNamed(beaconTextureName)
             beaconAnimationFrames.append(texture)
         }
@@ -28,20 +29,13 @@ class BeaconNode: SKSpriteNode {
                                                            timePerFrame: 0.2,
                                                            resize: false,
                                                            restore: true)),
-                   withKey:"beaconSignalAnimation")
+                   withKey:"\(baseName)SignalAnimation")
         isUserInteractionEnabled = true
         physicsBody = SKPhysicsBody(texture: beaconAnimationFrames[0], size: size)
         physicsBody?.friction = 0.0
         physicsBody?.restitution = 1.0
         physicsBody?.mass = 100000
         physicsBody?.contactTestBitMask = physicsBody?.collisionBitMask ?? 0xFFFFFFFF
-        
-        let label = SKLabelNode(fontNamed: "Chalkduster")
-        label.text = beaconName.rawValue
-        label.zPosition = 1.0
-        label.horizontalAlignmentMode = .center
-        label.verticalAlignmentMode = .center
-        addChild(label)
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -49,14 +43,20 @@ class BeaconNode: SKSpriteNode {
     }
 }
 
-//extension BeaconNode {
-//
-//    private func labelPosition(for beaconName: BeaconName) -> CGPoint {
-//        switch beaconName {
-//        case .beaconAirport, .beaconLeft, .beaconTop:
-//            return CGPoint(x: Beacon, y: <#T##CGFloat#>)
-//        case .beaconRight:
-//        case .beaconBottom:
-//        }
-//    }
-//}
+extension BeaconNode {
+
+    private static func atlasName(for beaconName: BeaconName) -> String {
+        switch beaconName {
+        case .beaconAirport:
+            return "beacon-blue"
+        case .beaconLeft:
+            return "beacon-orange"
+        case .beaconRight:
+            return "beacon-cyan"
+        case .beaconTop:
+            return "beacon-purple"
+        case .beaconBottom:
+            return "beacon-yellow"
+        }
+    }
+}

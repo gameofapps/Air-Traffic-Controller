@@ -16,10 +16,10 @@ struct Beacon : Equatable {
     }
 }
 
-enum BeaconName : String {
-    case beaconAirport = "A"
-    case beaconLeft = "L"
-    case beaconRight = "R"
-    case beaconTop = "T"
-    case beaconBottom = "B"
+enum BeaconName {
+    case beaconAirport
+    case beaconLeft
+    case beaconRight
+    case beaconTop
+    case beaconBottom
 }
