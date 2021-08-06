@@ -21,6 +21,32 @@ class PlaneNode: SKSpriteNode {
     var delegate: PlaneNodeDelegate? = nil
     var defaultSpeed: CGFloat = PlaneSpeed.speed3.rawValue
     
+    var isSelected: Bool {
+        didSet {
+            guard !isCollided else { return }
+            if isSelected {
+                texture = SKTexture(imageNamed: "airplane-black")
+            }
+            else {
+                texture = SKTexture(imageNamed: PlaneNode.imageName(for: destination))
+            }
+        }
+    }
+    
+    var isCollided: Bool {
+        didSet {
+            if isCollided {
+                texture = SKTexture(imageNamed: "airplane-red")
+            }
+            else if isSelected {
+                texture = SKTexture(imageNamed: "airplane-black")
+            }
+            else {
+                texture = SKTexture(imageNamed: PlaneNode.imageName(for: destination))
+            }
+        }
+    }
+
     var cartesianCoordinates: CGPoint {
         guard let scene = scene else { return CGPoint.zero }
         guard let cartesianCoordinates = scene.view?.convert(position, from: scene) else { return CGPoint.zero }
@@ -76,8 +102,11 @@ class PlaneNode: SKSpriteNode {
     }
 
     // Initializer
-    init() {
-        let texture = SKTexture(imageNamed: "airplane")
+    init(destination: BeaconName) {
+        let texture = SKTexture(imageNamed: PlaneNode.imageName(for: destination))
+        self.destination = destination
+        isCollided = false
+        isSelected = false
         super.init(texture: texture, color: .clear, size: texture.size())
         size = CGSize(width: PlaneViewModel.width, height: PlaneViewModel.height)
         isUserInteractionEnabled = true
@@ -95,6 +124,7 @@ class PlaneNode: SKSpriteNode {
     // Private properties
     private var touchLocationLast: CGPoint? = nil
     private var inFreeFlight = false
+    private var destination: BeaconName
 }
 
 // MARK: - Handle touch events
@@ -138,4 +168,24 @@ extension PlaneNode {
     private func touchedUpOutside() {
         delegate?.didTouchUpOutside(planeNode: self)
     }
+}
+
+extension PlaneNode {
+
+    private static func imageName(for beaconName: BeaconName) -> String {
+        switch beaconName {
+        case .beaconAirport:
+            return "airplane-blue"
+        case .beaconLeft:
+            return "airplane-orange"
+        case .beaconRight:
+            return "airplane-cyan"
+        case .beaconTop:
+            return "airplane-purple"
+        case .beaconBottom:
+            return "airplane-yellow"
+        }
+    }
+    
+    private static let collidedImageName = "airplane-red"
 }

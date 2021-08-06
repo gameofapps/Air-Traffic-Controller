@@ -18,9 +18,9 @@ struct Plane : Equatable {
 
 enum PlaneSpeed: CGFloat {
     
-    case speed1 = 20
-    case speed2 = 30
-    case speed3 = 40
-    case speed4 = 50
-    case speed5 = 60
+    case speed1 = 10
+    case speed2 = 20
+    case speed3 = 30
+    case speed4 = 40
+    case speed5 = 50
 }

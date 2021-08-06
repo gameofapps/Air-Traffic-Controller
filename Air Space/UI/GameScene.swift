@@ -23,7 +23,7 @@ class GameScene: SKScene {
     func spawnNewPlane() -> PlaneViewModel? {
         guard let originBeacon = getRandomBeacon(), let destinationBeacon = getRandomBeacon() else { return nil }
 
-        let planeNode = PlaneNode()
+        let planeNode = PlaneNode(destination: destinationBeacon.beacon.name)
         planeNode.position = originBeacon.spawnPosition
         addChild(planeNode)
 

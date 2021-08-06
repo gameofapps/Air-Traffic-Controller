@@ -28,7 +28,7 @@
                                         <rect key="frame" x="161" y="201" width="92" height="201"/>
                                         <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="36"/>
                                         <state key="normal" title="Easy">
-                                            <color key="titleColor" systemColor="systemPurpleColor"/>
+                                            <color key="titleColor" systemColor="systemYellowColor"/>
                                         </state>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="64"/>
@@ -41,7 +41,7 @@
                                         <rect key="frame" x="128" y="402" width="158" height="201"/>
                                         <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="36"/>
                                         <state key="normal" title="Medium">
-                                            <color key="titleColor" systemColor="systemPurpleColor"/>
+                                            <color key="titleColor" systemColor="systemYellowColor"/>
                                         </state>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="64"/>
@@ -54,7 +54,7 @@
                                         <rect key="frame" x="123" y="603" width="168" height="201"/>
                                         <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="36"/>
                                         <state key="normal" title="Difficult">
-                                            <color key="titleColor" systemColor="systemPurpleColor"/>
+                                            <color key="titleColor" systemColor="systemYellowColor"/>
                                         </state>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="64"/>
@@ -105,7 +105,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ag5-NI-qt7"/>
-                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                        <color key="backgroundColor" red="0.17688044765092109" green="0.40409787616344417" blue="0.110768261483168" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="fMp-fX-Umr" secondAttribute="trailing" id="6os-yq-Hec"/>
                             <constraint firstAttribute="bottom" secondItem="jrh-hD-es5" secondAttribute="bottom" id="CS2-gi-GTU"/>
@@ -158,16 +158,13 @@
             <point key="canvasLocation" x="121.73913043478262" y="113.83928571428571"/>
         </scene>
     </scenes>
-    <color key="tintColor" systemColor="systemPurpleColor"/>
+    <color key="tintColor" systemColor="systemYellowColor"/>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemPurpleColor">
-            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -23,32 +23,19 @@ class PlaneViewModel {
     var destination: BeaconName
     weak var delegate: PlaneViewModelDelegate? = nil
 
-    static let width: CGFloat = 80.0
-    static let height: CGFloat = 80.0
+    static let width: CGFloat = 60.0
+    static let height: CGFloat = 60.0
 
     var isSelected: Bool {
         didSet {
             guard !isCollided else { return }
-            if isSelected {
-                planeNode.texture = SKTexture(imageNamed: "airplane-black")
-            }
-            else {
-                planeNode.texture = SKTexture(imageNamed: "airplane")
-            }
+            planeNode.isSelected = isSelected
         }
     }
     
     var isCollided: Bool {
         didSet {
-            if isCollided {
-                planeNode.texture = SKTexture(imageNamed: "airplane-red")
-            }
-            else if isSelected {
-                planeNode.texture = SKTexture(imageNamed: "airplane-black")
-            }
-            else {
-                planeNode.texture = SKTexture(imageNamed: "airplane")
-            }
+            planeNode.isCollided = isCollided
         }
     }
     
