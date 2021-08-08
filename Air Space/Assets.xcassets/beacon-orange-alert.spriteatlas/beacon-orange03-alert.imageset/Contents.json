@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "BeaconOrange03-alert.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

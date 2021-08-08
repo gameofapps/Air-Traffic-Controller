@@ -28,7 +28,7 @@
                                         <rect key="frame" x="161" y="201" width="92" height="201"/>
                                         <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="36"/>
                                         <state key="normal" title="Easy">
-                                            <color key="titleColor" systemColor="systemYellowColor"/>
+                                            <color key="titleColor" systemColor="systemIndigoColor"/>
                                         </state>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="64"/>
@@ -41,7 +41,7 @@
                                         <rect key="frame" x="128" y="402" width="158" height="201"/>
                                         <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="36"/>
                                         <state key="normal" title="Medium">
-                                            <color key="titleColor" systemColor="systemYellowColor"/>
+                                            <color key="titleColor" systemColor="systemIndigoColor"/>
                                         </state>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="64"/>
@@ -54,7 +54,7 @@
                                         <rect key="frame" x="123" y="603" width="168" height="201"/>
                                         <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="36"/>
                                         <state key="normal" title="Difficult">
-                                            <color key="titleColor" systemColor="systemYellowColor"/>
+                                            <color key="titleColor" systemColor="systemIndigoColor"/>
                                         </state>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="64"/>
@@ -158,13 +158,13 @@
             <point key="canvasLocation" x="121.73913043478262" y="113.83928571428571"/>
         </scene>
     </scenes>
-    <color key="tintColor" systemColor="systemYellowColor"/>
+    <color key="tintColor" systemColor="systemIndigoColor"/>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

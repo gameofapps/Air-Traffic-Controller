@@ -18,7 +18,7 @@ class GameScene: SKScene {
 
     // Public properties
     weak var gameSceneDelegate: GameSceneDelegate? = nil
-    
+
     var score: Int = 0 {
         didSet {
             guard let scoreBoard = scoreBoard else { return }
@@ -28,6 +28,7 @@ class GameScene: SKScene {
 
     // Public methods
     func setupBoard() {
+        guard !isPaused else { return }
         let leftBeaconNode = BeaconNode(beaconName: .beaconLeft)
         leftBeaconNode.position = getBeaconPosition(for: .beaconLeft)
         addChild(leftBeaconNode)
@@ -53,19 +54,18 @@ class GameScene: SKScene {
         score = 0
     }
     
-    func spawnNewPlane(defaultSpeed: PlaneSpeed) -> PlaneViewModel? {
-        guard let originBeacon = getRandomBeacon(), let destinationBeacon = getRandomBeacon() else { return nil }
-
-        let planeNode = PlaneNode(destination: destinationBeacon.beacon.name, defaultSpeed: defaultSpeed)
-        planeNode.position = originBeacon.spawnPosition
-        addChild(planeNode)
-
-        let planeViewModel = PlaneViewModel(planeNode: planeNode, origin: originBeacon.beacon.name, destination: destinationBeacon.beacon.name)
-        planes.append(planeViewModel)
-
-        planeNode.setMotion(on: initialPath(for: originBeacon), transform: false)
-
-        return planeViewModel
+    func spawnNewPlane(defaultSpeed: PlaneSpeed, completion: @escaping (_ planeViewModel: PlaneViewModel?) -> Void) {
+        guard !isPaused else { return }
+        guard let originBeacon = getRandomBeacon(nonAlertOnly: true), let destinationBeacon = getRandomBeacon(nonAlertOnly: false) else { return }
+        originBeacon.isOnAlert = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
+            guard self?.isPaused == false else {
+                completion(nil)
+                return
+            }
+            originBeacon.isOnAlert = false
+            self?.spawnPlane(defaultSpeed: defaultSpeed, origin: originBeacon, destination: destinationBeacon, completion: completion)
+        }
     }
     
     func remove(plane: PlaneViewModel) {
@@ -153,9 +153,18 @@ extension GameScene : SKPhysicsContactDelegate {
 // MARK: - Game mechanics
 extension GameScene {
     
-    private func getRandomBeacon() -> BeaconViewModel? {
+    private func getRandomBeacon(nonAlertOnly: Bool) -> BeaconViewModel? {
         guard beacons.count > 0 else { return nil }
-        let randomIndex = Int.random(in: 0..<beacons.count)
+        guard !beacons.filter({ beaconViewModel in
+            beaconViewModel.isOnAlert == false
+        }).isEmpty else {
+            print("All beacons busy")
+            return nil
+        }
+        var randomIndex: Int
+        repeat {
+            randomIndex = Int.random(in: 0..<beacons.count)
+        } while nonAlertOnly && beacons[randomIndex].isOnAlert
         return beacons[randomIndex]
     }
 
@@ -235,5 +244,22 @@ extension GameScene {
         case .beaconBottom:
             return (0.0, 300.0)   // Move up
         }
+    }
+    
+    private func spawnPlane(defaultSpeed: PlaneSpeed, origin: BeaconViewModel, destination: BeaconViewModel, completion: (_ plane: PlaneViewModel?) -> Void) {
+        guard !isPaused else {
+            completion(nil)
+            return
+        }
+        let planeNode = PlaneNode(destination: destination.beacon.name, defaultSpeed: defaultSpeed)
+        planeNode.position = origin.spawnPosition
+        addChild(planeNode)
+
+        let planeViewModel = PlaneViewModel(planeNode: planeNode, origin: origin.beacon.name, destination: destination.beacon.name)
+        planes.append(planeViewModel)
+
+        planeNode.setMotion(on: initialPath(for: origin), transform: false)
+
+        completion(planeViewModel)
     }
 }

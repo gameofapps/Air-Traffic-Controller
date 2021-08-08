@@ -132,7 +132,7 @@ extension GameBoardViewController : PlaneViewModelDelegate {
 extension GameBoardViewController : GameSceneDelegate {
     
     func didCollide(gameScene: GameScene, planeA: PlaneNode, planeB: PlaneNode) {
-        gameScene.view?.isPaused = true
+        gameScene.isPaused = true
         if let firstPlaneViewModel = gameScene.viewModel(for: planeA) {
             firstPlaneViewModel.isCollided = true
         }
@@ -148,7 +148,7 @@ extension GameBoardViewController : GameSceneDelegate {
                 gameScene.score += 1
             }
             else {
-                gameScene.view?.isPaused = true
+                gameScene.isPaused = true
                 planeViewModel.isCollided = true
             }
         }
@@ -160,8 +160,11 @@ extension GameBoardViewController {
 
     private func spawnNewPlane() {
         guard let gameScene = gameScene else { return }
-        guard let planeViewModel = gameScene.spawnNewPlane(defaultSpeed: defaultSpeed) else { return }
-        planeViewModel.delegate = self
-        planes.append(planeViewModel)
+        gameScene.spawnNewPlane(defaultSpeed: defaultSpeed) { [weak self] planeViewModel in
+            if let planeViewModel = planeViewModel {
+                planeViewModel.delegate = self
+                self?.planes.append(planeViewModel)
+            }
+        }
     }
 }

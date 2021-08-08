@@ -10,27 +10,39 @@ import SpriteKit
 
 class BeaconNode: SKSpriteNode {
     
+    // Public properties
+    var isOnAlert: Bool = false {
+        didSet {
+            removeAllActions()
+            let animationFrames = isOnAlert ? beaconAlertAnimationFrames : beaconAnimationFrames
+            let key = isOnAlert ? "\(baseName)SignalAnimation" : "\(baseName)-alertSignalAnimation"
+            run(SKAction.repeatForever(SKAction.animate(with: animationFrames,
+                                                        timePerFrame: 0.4,
+                                                        resize: false,
+                                                        restore: true)),
+                                       withKey:key)
+        }
+    }
+
     // Initializer
     init(beaconName: BeaconName) {
-        let baseName = BeaconNode.atlasName(for: beaconName)
+        baseName = BeaconNode.atlasName(for: beaconName)
         let beaconAnimationAtlas = SKTextureAtlas(named: baseName)
-        var beaconAnimationFrames = [SKTexture]()
+        let beaconAlertAnimationAtlas = SKTextureAtlas(named: "\(baseName)-alert")
         let numImages = beaconAnimationAtlas.textureNames.count
         for i in 0..<numImages {
             let beaconTextureName = "\(baseName)0\(i)"
-            let texture = beaconAnimationAtlas.textureNamed(beaconTextureName)
-            beaconAnimationFrames.append(texture)
+            let beaconTexture = beaconAnimationAtlas.textureNamed(beaconTextureName)
+            beaconAnimationFrames.append(beaconTexture)
+            let beaconAlertTextureName = "\(baseName)0\(i)-alert"
+            let beaconAlertTexture = beaconAlertAnimationAtlas.textureNamed(beaconAlertTextureName)
+            beaconAlertAnimationFrames.append(beaconAlertTexture)
         }
         
         super.init(texture: beaconAnimationFrames[0], color: .clear, size: beaconAnimationFrames[0].size())
         
-        size = CGSize(width: BeaconViewModel.width, height: BeaconViewModel.height)
-        self.run(SKAction.repeatForever(SKAction.animate(with: beaconAnimationFrames,
-                                                           timePerFrame: 0.4,
-                                                           resize: false,
-                                                           restore: true)),
-                   withKey:"\(baseName)SignalAnimation")
         isUserInteractionEnabled = true
+        size = CGSize(width: BeaconViewModel.width, height: BeaconViewModel.height)
         physicsBody = SKPhysicsBody(texture: beaconAnimationFrames[0], size: size)
         physicsBody?.friction = 0.0
         physicsBody?.restitution = 1.0
@@ -41,6 +53,11 @@ class BeaconNode: SKSpriteNode {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // Private properties
+    let baseName: String
+    var beaconAnimationFrames = [SKTexture]()
+    var beaconAlertAnimationFrames = [SKTexture]()
 }
 
 extension BeaconNode {

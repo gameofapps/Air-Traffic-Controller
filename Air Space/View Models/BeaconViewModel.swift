@@ -13,6 +13,12 @@ class BeaconViewModel {
     var beacon: Beacon
     var beaconNode: BeaconNode
     var spawnPosition: CGPoint
+    
+    var isOnAlert = false {
+        didSet {
+            beaconNode.isOnAlert = isOnAlert
+        }
+    }
 
     static let width: CGFloat = 44.0
     static let height: CGFloat = 44.0
@@ -21,6 +27,7 @@ class BeaconViewModel {
         self.beaconNode = beaconNode
         self.spawnPosition = spawnPosition
         beacon = Beacon(name: name)
+        self.beaconNode.isOnAlert = false
     }
 }
 

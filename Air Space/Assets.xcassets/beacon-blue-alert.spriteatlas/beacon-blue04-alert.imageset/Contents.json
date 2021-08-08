@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "BeaconBlue04-alert.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
