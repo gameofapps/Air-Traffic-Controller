@@ -121,13 +121,7 @@
                             <constraint firstAttribute="trailing" secondItem="jfD-fb-0qA" secondAttribute="trailing" id="z1W-7H-iTH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Air Space" id="4Od-iL-vEd">
-                        <barButtonItem key="rightBarButtonItem" title="Spawn" id="wDQ-Du-JX3">
-                            <connections>
-                                <action selector="spawnButtonTapped:" destination="P66-KA-Aig" id="q2R-KM-hyK"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Air Space" id="4Od-iL-vEd"/>
                     <connections>
                         <outlet property="pathsView" destination="jfD-fb-0qA" id="6mn-P4-eK5"/>
                         <outlet property="spriteKitView" destination="fMp-fX-Umr" id="GDd-m0-7mB"/>

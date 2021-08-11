@@ -15,13 +15,10 @@ class GameBoardViewController: UIViewController {
     @IBOutlet weak var spriteKitView: SKView!
     @IBOutlet weak var pathsView: UIView!
 
-    // MARK: - IBActions
-    @IBAction func spawnButtonTapped(_ sender: UIBarButtonItem) {
-        spawnNewPlane()
-    }
-
     // MARK: - Public properties
     var defaultSpeed: PlaneSpeed = .speed3
+    var minSpawnTime: Double = 5.0
+    var maxSpawnTime: Double = 8.0
 
     // MARK: - Data model
     private var planes = [PlaneViewModel]()
@@ -30,6 +27,7 @@ class GameBoardViewController: UIViewController {
     // MARK: - Private properties
     private var isTracingPath = false
     private var gameScene: GameScene? = nil
+    private var spawnTimer: Timer? = nil
 }
 
 // MARK: - UIViewController methods
@@ -51,6 +49,11 @@ extension GameBoardViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         gameScene?.setupBoard()
+        startSpawning()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        stopSpawning()
     }
 }
 
@@ -132,13 +135,13 @@ extension GameBoardViewController : PlaneViewModelDelegate {
 extension GameBoardViewController : GameSceneDelegate {
     
     func didCollide(gameScene: GameScene, planeA: PlaneNode, planeB: PlaneNode) {
-        gameScene.isPaused = true
         if let firstPlaneViewModel = gameScene.viewModel(for: planeA) {
             firstPlaneViewModel.isCollided = true
         }
         if let secondPlaneViewModel = gameScene.viewModel(for: planeB) {
             secondPlaneViewModel.isCollided = true
         }
+        stopGame()
     }
     
     func didCollide(gameScene: GameScene, plane: PlaneNode, beacon: BeaconNode) {
@@ -148,8 +151,8 @@ extension GameBoardViewController : GameSceneDelegate {
                 gameScene.score += 1
             }
             else {
-                gameScene.isPaused = true
                 planeViewModel.isCollided = true
+                stopGame()
             }
         }
     }
@@ -166,5 +169,23 @@ extension GameBoardViewController {
                 self?.planes.append(planeViewModel)
             }
         }
+    }
+    
+    private func startSpawning() {
+        let timeInterval = TimeInterval.random(in: minSpawnTime ..< maxSpawnTime)
+        spawnTimer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { [weak self] timer in
+            print("Timer fired!")
+            self?.spawnNewPlane()
+            self?.startSpawning()
+        }
+    }
+
+    private func stopSpawning() {
+        spawnTimer?.invalidate()
+    }
+
+    private func stopGame() {
+        stopSpawning()
+        gameScene?.isPaused = true
     }
 }
