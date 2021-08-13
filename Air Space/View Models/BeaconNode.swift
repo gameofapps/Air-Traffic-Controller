@@ -15,7 +15,7 @@ class BeaconNode: SKSpriteNode {
         didSet {
             removeAllActions()
             let animationFrames = isOnAlert ? beaconAlertAnimationFrames : beaconAnimationFrames
-            let key = isOnAlert ? "\(baseName)SignalAnimation" : "\(baseName)-alertSignalAnimation"
+            let key = isOnAlert ? "\(baseName)-alertSignalAnimation" : "\(baseName)-SignalAnimation"
             run(SKAction.repeatForever(SKAction.animate(with: animationFrames,
                                                         timePerFrame: 0.4,
                                                         resize: false,

@@ -59,11 +59,11 @@ class GameScene: SKScene {
         guard let originBeacon = getRandomBeacon(nonAlertOnly: true), let destinationBeacon = getRandomBeacon(nonAlertOnly: false) else { return }
         originBeacon.isOnAlert = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
+            originBeacon.isOnAlert = false
             guard self?.isPaused == false else {
                 completion(nil)
                 return
             }
-            originBeacon.isOnAlert = false
             self?.spawnPlane(defaultSpeed: defaultSpeed, origin: originBeacon, destination: destinationBeacon, completion: completion)
         }
     }
